@@ -2,7 +2,11 @@
 
 This guide will walk you through the complete installation process for the Issue Change Log app.
 
+Quick overview: you can install the app directly from the Atlassian Marketplace (recommended) without any CLI or local build steps. The Marketplace installation requires only Jira administrator/site-admin privileges and a modern browser.
+
 ## Prerequisites
+
+You need an active Jira Cloud instance and Jira administrator (site admin) privileges to install the app.
 
 Before installing the Issue Change Log app, ensure you have:
 
@@ -28,6 +32,8 @@ Before installing the Issue Change Log app, ensure you have:
 ### Method 1: Install from Atlassian Marketplace (Recommended)
 
 > **Note**: This app may need to be published to the Atlassian Marketplace first.
+
+> **Marketplace install (no CLI required)**: Installing from the Atlassian Marketplace performs all steps through the web UI — no local CLI or build steps are necessary for customers who install the published app.
 
 1. **Navigate to Atlassian Marketplace**
    - Go to [https://marketplace.atlassian.com](https://marketplace.atlassian.com)

@@ -23,7 +23,11 @@ const navigationData = {
       id: "installation",
       title: "Installation Guide",
       expanded: false,
-      items: [],
+      items: [
+        { id: "prerequisites", title: "Prerequisites" },
+        { id: "user-permissions", title: "User Permissions" },
+        { id: "browser-requirements", title: "Browser Requirements" },
+      ],
     },
     {
       id: "configuration",
