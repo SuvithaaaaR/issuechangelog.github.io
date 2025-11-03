@@ -302,11 +302,31 @@ function loadSectionContent(sectionId) {
                         (annotation) => `
                 ${
                   annotation.lineFrom && annotation.lineTo
-                    ? `<div class="annotation-line" style="left: ${
-                        annotation.lineFrom.x
-                      }%; top: ${annotation.lineFrom.y}%; height: ${Math.abs(
-                        annotation.lineTo.y - annotation.lineFrom.y
-                      )}%;"></div>`
+                    ? (() => {
+                        const isHorizontal =
+                          annotation.lineFrom.y === annotation.lineTo.y;
+                        const isVertical =
+                          annotation.lineFrom.x === annotation.lineTo.x;
+
+                        if (isHorizontal) {
+                          return `<div class="annotation-line" style="left: ${Math.min(
+                            annotation.lineFrom.x,
+                            annotation.lineTo.x
+                          )}%; top: ${
+                            annotation.lineFrom.y
+                          }%; width: ${Math.abs(
+                            annotation.lineTo.x - annotation.lineFrom.x
+                          )}%; height: 3px;"></div>`;
+                        } else {
+                          return `<div class="annotation-line" style="left: ${
+                            annotation.lineFrom.x
+                          }%; top: ${
+                            annotation.lineFrom.y
+                          }%; height: ${Math.abs(
+                            annotation.lineTo.y - annotation.lineFrom.y
+                          )}%;"></div>`;
+                        }
+                      })()
                     : ""
                 }
                 <div class="annotation-tag" style="left: ${
@@ -1760,4 +1780,47 @@ function switchTab(tabId) {
 document.addEventListener("DOMContentLoaded", function () {
   initializeVersionDropdown();
   initializeSaveAsPdfButton();
+  initializeImageModal();
 });
+
+// Image modal functionality
+function initializeImageModal() {
+  // Create modal HTML if it doesn't exist
+  if (!document.getElementById("imageModal")) {
+    const modalHTML = `
+      <div id="imageModal" class="image-modal">
+        <button class="modal-close" onclick="closeImageModal()">&times;</button>
+        <img id="modalImage" src="" alt="" />
+      </div>
+    `;
+    document.body.insertAdjacentHTML("beforeend", modalHTML);
+  }
+}
+
+function openImageModal(imageSrc, imageAlt) {
+  const modal = document.getElementById("imageModal");
+  const modalImage = document.getElementById("modalImage");
+
+  modalImage.src = imageSrc;
+  modalImage.alt = imageAlt;
+  modal.classList.add("active");
+
+  // Close modal when clicking outside the image
+  modal.addEventListener("click", function (e) {
+    if (e.target === modal) {
+      closeImageModal();
+    }
+  });
+
+  // Close modal with Escape key
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && modal.classList.contains("active")) {
+      closeImageModal();
+    }
+  });
+}
+
+function closeImageModal() {
+  const modal = document.getElementById("imageModal");
+  modal.classList.remove("active");
+}

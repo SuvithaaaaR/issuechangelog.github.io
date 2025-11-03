@@ -662,14 +662,102 @@ console.log('Ahoy, changelog!', histories.length);
         </div>
         `,
       },
+
+      /* {
+        type: "text",
+        content:
+          "The **Authorized Projects Management** section allows Jira administrators to view and control which projects have access to the **Issue Change Log** app. It lists each project’s name, key, ID, and authorization date, with options to remove access individually or in bulk using the **Remove Selected** action. This centralized control ensures clear visibility, efficient permission management, and easy updates as organizational needs evolve.",
+      },*/ {
+        type: "html",
+        content: `
+        <div class="content-with-image">
+          <div class="image-with-expand">
+            <img src="jira-admin-3.png" alt="Add Project Access — search and select projects" onerror="this.outerHTML='<div style=\'padding:80px;text-align:center;background:#f4f5f7;color:#6b778c;\'>Image placeholder</div>'" />
+            <button class="expand-icon" onclick="openImageModal('jira-admin-3.png', 'Add Project Access — search and select projects')" aria-label="Expand image">⤢</button>
+          </div>
+          <div class="content-text">
+            <h3 class="content-heading">Authorized Projects Management</h3>
+            <p>The <strong>Authorized Projects Management</strong> section allows Jira administrators to view and control which projects have access to the <strong>Issue Change Log</strong> app. It lists each project's name, key, ID, and authorization date, with options to remove access individually or in bulk using the <strong>Remove Selected</strong> action. This centralized control ensures clear visibility, efficient permission management, and easy updates as organizational needs evolve.</p>
+          </div>
+        </div>
+        `,
+      },
       {
-        type: "image",
+        type: "annotated-image",
         src: "jira-admin-1.png",
-        alt: "Site administration - permissions screenshot",
-        caption:
-          "Site admin settings — permissions and access control overview.",
-        description:
-          "Screenshot showing the Permission Control area and available admin controls for authorizing projects and managing access.",
+        alt: "Site administration - permissions screenshot showing authorized projects management",
+        annotations: [
+          {
+            number: "1",
+            x: 20,
+            y: 12,
+            lineFrom: { x: 20, y: 12 },
+            lineTo: { x: 30, y: 24 },
+            tooltipTitle: "Project Name",
+            tooltipDescription:
+              "The name of the project that has been authorized to use the Issue Change Log app.",
+          },
+          {
+            number: "2",
+            x: 37,
+            y: 12,
+            lineFrom: { x: 37, y: 12 },
+            lineTo: { x: 42, y: 24 },
+            tooltipTitle: "Project Key",
+            tooltipDescription:
+              "The unique project key identifier used within Jira.",
+          },
+          {
+            number: "3",
+            x: 48,
+            y: 12,
+            lineFrom: { x: 48, y: 12 },
+            lineTo: { x: 58, y: 24 },
+            tooltipTitle: "Project ID",
+            tooltipDescription:
+              "The internal project ID number assigned by Jira.",
+          },
+          {
+            number: "4",
+            x: 65,
+            y: 12,
+            lineFrom: { x: 65, y: 12 },
+            lineTo: { x: 75, y: 24 },
+            tooltipTitle: "Authorization Date",
+            tooltipDescription:
+              "The date when the project was authorized to access the app.",
+          },
+          {
+            number: "5",
+            x: 90,
+            y: 31,
+            lineFrom: { x: 90, y: 31 },
+            lineTo: { x: 69, y: 31 },
+            tooltipTitle: "Remove Access",
+            tooltipDescription:
+              "Individual remove button to revoke access for this specific project.",
+          },
+          {
+            number: "6",
+            x: 24,
+            y: 69,
+            lineFrom: { x: 25, y: 69 },
+            lineTo: { x: 35, y: 69},
+            tooltipTitle: "Select All Checkbox",
+            tooltipDescription:
+              "Check this box to select all projects for bulk operations.",
+          },
+          {
+            number: "7",
+            x: 90,
+            y: 46,
+            lineFrom: { x: 90, y: 45 },
+            lineTo: { x: 95, y: 60 },
+            tooltipTitle: "Remove Selected",
+            tooltipDescription:
+              "Bulk action button to remove access for all selected projects at once.",
+          },
+        ],
       },
       {
         type: "image",

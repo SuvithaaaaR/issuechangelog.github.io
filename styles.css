@@ -2137,6 +2137,14 @@ h4.content-heading {
   display: none;
 }
 
+/* Make bold text immediately under a heading darker and slightly stronger
+   (applies to the Authorized Projects Management paragraph we inserted) */
+.content-heading + .text-content strong,
+.content-heading + .text-content p strong {
+  color: var(--ds-text-accent-gray-bolder, #091e42);
+  font-weight: 700;
+}
+
 /* Warning Box */
 .warning-box {
   background-color: #fff4e5;
@@ -2198,6 +2206,210 @@ h4.content-heading {
   width: 100%;
   height: auto;
   display: block;
+}
+
+/* Layout helper: place multiple images side-by-side in a responsive row */
+.image-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin: 1.25rem 0;
+}
+.image-row .content-image {
+  flex: 1 1 48%;
+  max-width: 48%;
+}
+.image-row .content-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0;
+}
+
+/* Override earlier narrow-specific rules when images are shown in the image-row */
+.image-row img[src="jira-admin-3.png"],
+.image-row img[src="jira-admin-1.png"] {
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+@media (max-width: 900px) {
+  .image-row {
+    flex-direction: column;
+  }
+  .image-row .content-image {
+    max-width: 100%;
+    flex: 1 1 100%;
+  }
+}
+
+/* When an image-row is intended to be a single full-width row */
+.image-row.image-row-single {
+  display: block; /* stacking block to ensure full width */
+}
+.image-row.image-row-single .content-image {
+  max-width: 100%;
+  flex: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Layout helper: content alongside image */
+.content-with-image {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  margin: 1.25rem 0;
+}
+.content-with-image .content-image {
+  flex: 0 0 45%;
+  max-width: 45%;
+}
+.content-with-image > img {
+  flex: 0 0 45%;
+  max-width: 45%;
+  height: auto;
+  display: block;
+}
+.content-with-image .content-text {
+  flex: 1 1 55%;
+}
+.content-with-image .content-text h3 {
+  margin-top: 0;
+}
+
+@media (max-width: 900px) {
+  .content-with-image {
+    flex-direction: column;
+  }
+  .content-with-image .content-image,
+  .content-with-image .content-text,
+  .content-with-image > img,
+  .content-with-image .image-with-expand {
+    max-width: 100%;
+    flex: 1 1 100%;
+  }
+}
+
+/* Image with expand functionality */
+.content-with-image .image-with-expand {
+  flex: 0 0 55%;
+  max-width: 55%;
+  position: relative;
+  display: inline-block;
+}
+.content-with-image .image-with-expand img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Expand icon for images */
+.expand-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(9, 30, 66, 0.2);
+  border-radius: 4px;
+  padding: 4px 6px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #0052cc;
+  box-shadow: 0 2px 6px rgba(9, 30, 66, 0.15);
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+.expand-icon:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(9, 30, 66, 0.25);
+}
+
+/* Image modal */
+.image-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.image-modal.active {
+  display: flex;
+}
+.image-modal img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-close:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+/* Make jira-admin-3.png smaller and centered (specific override) */
+.content-image img[src="jira-admin-3.png"] {
+  max-width: 720px; /* cap the rendered width */
+  width: 80%; /* scale relatively inside its container */
+  margin: 18px auto 24px auto;
+  display: block;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(9, 30, 66, 0.08);
+}
+
+/* Add a distinct blue border to the Add Project Access screenshot */
+.content-image img[src="jira-admin-3.png"] {
+  border: 1px solid #0353cc; /* requested blue (thinner) */
+  box-sizing: border-box; /* include border in sizing */
+}
+
+/* Add shadow to jira-admin-3.png when it's a direct img element */
+.content-with-image > img[src="jira-admin-3.png"] {
+  border: 1px solid #0353cc;
+  box-shadow: 0 8px 24px rgba(9, 30, 66, 0.15), 0 4px 12px rgba(9, 30, 66, 0.1);
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+/* Add shadow to jira-admin-3.png when it's inside image-with-expand */
+.content-with-image .image-with-expand img[src="jira-admin-3.png"] {
+  border: 1px solid #0353cc;
+  box-shadow: 0 8px 24px rgba(9, 30, 66, 0.15), 0 4px 12px rgba(9, 30, 66, 0.1);
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .content-image img[src="jira-admin-3.png"] {
+    width: 100%;
+    max-width: 100%;
+    margin: 12px 0;
+  }
 }
 
 /* Code blocks adopt ADS mono stack */
@@ -2634,9 +2846,9 @@ pre code {
 
 .annotation-tag {
   position: absolute;
-  height: 40px;
-  width: 40px;
-  padding: 6px 12px;
+  height: 28px;
+  width: 28px;
+  padding: 4px 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2644,10 +2856,10 @@ pre code {
   background-color: #f5cd47;
   font-family: "Charlie Display", -apple-system, BlinkMacSystemFont, "Segoe UI",
     "Roboto", sans-serif;
-  font-size: 16px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 700;
-  line-height: 24px;
+  line-height: 16px;
   color: #172b4d;
   box-shadow: 0px 8px 12px rgba(9, 30, 66, 0.15),
     0px 0px 1px rgba(9, 30, 66, 0.31);
