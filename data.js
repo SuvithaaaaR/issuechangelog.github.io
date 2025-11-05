@@ -23,11 +23,7 @@ const navigationData = {
       id: "installation",
       title: "Installation Guide",
       expanded: false,
-      items: [
-        { id: "prerequisites", title: "Prerequisites" },
-        { id: "user-permissions", title: "User Permissions" },
-        { id: "browser-requirements", title: "Browser Requirements" },
-      ],
+      items: [],
     },
     {
       id: "configuration",
@@ -36,21 +32,8 @@ const navigationData = {
       items: [],
     },
     {
-      id: "user-guide",
-      title: "User Guide / Usage Instructions",
-      expanded: false,
-      items: [],
-    },
-    { id: "faq", title: "FAQ / Troubleshooting", expanded: false, items: [] },
-    {
       id: "support",
       title: "Support and Contact Information",
-      expanded: false,
-      items: [],
-    },
-    {
-      id: "release-notes",
-      title: "Release Notes / Changelog",
       expanded: false,
       items: [],
     },
@@ -60,39 +43,14 @@ const navigationData = {
       expanded: false,
       items: [],
     },
-    {
-      id: "compliance",
-      title: "Business Verification and Compliance",
-      expanded: false,
-      items: [],
-    },
-    {
-      id: "marketplace",
-      title: "Marketplace Listing Content",
-      expanded: false,
-      items: [],
-    },
-    {
-      id: "pricing",
-      title: "Pricing & Evaluation",
-      expanded: false,
-      items: [],
-    },
     { id: "privacy", title: "Privacy Policy", expanded: false, items: [] },
-    { id: "terms", title: "Terms of Service", expanded: false, items: [] },
-    {
-      id: "quality-assurance",
-      title: "Quality Assurance",
-      expanded: false,
-      items: [],
-    },
   ],
 };
 
 // Header navigation links (array expected by script.js)
 const headerNav = [
   { title: "Home", link: "#" },
-  { title: "Documentation", link: "#" },
+  { title: "Issue Change Log", link: "#" },
 ];
 
 // Page metadata and version info
@@ -117,8 +75,8 @@ const sectionContents = {
       ctas: [
         { label: "Get Started", target: "app-overview" },
         { label: "Installation", target: "installation" },
-        { label: "User Guide", target: "user-guide" },
-        { label: "Release Notes", target: "release-notes" },
+        { label: "Features", target: "features" },
+        { label: "Support", target: "support" },
       ],
       image: {
         src: "home img.png",
@@ -168,7 +126,7 @@ console.log('Ahoy, changelog!', histories.length);
       },
     },
     breadcrumbs: [
-      { title: "Documentation", link: "#" },
+      { title: "Issue Change Log", link: "#" },
       { title: "Issue Changelog", link: "#" },
     ],
     title: "Issue Changelog",
@@ -203,10 +161,14 @@ console.log('Ahoy, changelog!', histories.length);
       { title: "Overview", anchor: "#overview" },
       { title: "What You Can See", anchor: "#what-you-can-see" },
     ],
+    navigation: {
+      previous: null,
+      next: { title: "Get Started", target: "app-overview" },
+    },
   },
   "app-overview": {
     breadcrumbs: [
-      { title: "Documentation", link: "#" },
+      { title: "Issue Change Log", link: "#" },
       { title: "Get Started", link: "#" },
     ],
     title: "Get Started",
@@ -470,10 +432,23 @@ console.log('Ahoy, changelog!', histories.length);
         ],
       },
       {
-        type: "info-message-box",
-        title: "Historical Analysis",
-        content:
-          "Analyze patterns in issue modifications over time to improve processes and workflows.",
+        type: "html",
+        content: `
+        <div class="info-note">
+          <div class="info-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" fill="currentColor" />
+              <rect x="11" y="10" width="2" height="7" rx="1" fill="#FFFFFF"></rect>
+              <circle cx="12" cy="8" r="1" fill="#FFFFFF"></circle>
+            </svg>
+          </div>
+          <div class="info-text">
+            <p>
+              <strong>Historical Analysis:</strong> Analyze patterns in issue modifications over time to improve processes and workflows.
+            </p>
+          </div>
+        </div>
+        `,
       },
       { type: "heading", level: 2, content: "How It Works" },
       {
@@ -486,69 +461,6 @@ console.log('Ahoy, changelog!', histories.length);
           "Export – Users can export change data to CSV for further analysis.",
         ],
       },
-      { type: "heading", level: 2, content: "Platform Compatibility" },
-      { type: "text", content: "Supported platforms and environments:" },
-      {
-        type: "list",
-        items: [
-          "Jira Cloud – Fully Supported",
-          "Jira Data Center / Server – Not Supported (Forge apps are Cloud-only)",
-          "Supported Browsers – Chrome, Firefox, Safari, Edge (latest versions)",
-          "Mobile – Responsive design compatible with mobile browsers",
-        ],
-      },
-      { type: "heading", level: 2, content: "Architecture" },
-      {
-        type: "text",
-        content:
-          "The Issue Change Log is built on the Atlassian Forge platform, which provides:",
-      },
-      {
-        type: "list",
-        items: [
-          "A secure, isolated runtime environment",
-          "Built-in authentication and authorization",
-          "Direct integration with Jira APIs",
-          "Automatic scaling and performance optimization",
-          "Zero infrastructure management",
-        ],
-      },
-      { type: "heading", level: 2, content: "Data Privacy" },
-      {
-        type: "list",
-        items: [
-          "No External Storage: All data remains within the Jira instance",
-          "Forge Storage Only: Only project access configurations are stored in Forge storage",
-          "No Third-Party Access: The app does not share data with external services",
-          "Jira Permissions Respected: Users can only see data they have permission to access",
-        ],
-      },
-      { type: "heading", level: 2, content: "Next Steps" },
-      {
-        type: "list",
-        items: [
-          "Installation – Installation Guide",
-          "Configuration – Configuration and Setup",
-          "User Guide – User Guide",
-          "Troubleshooting – FAQ / Troubleshooting",
-        ],
-      },
-      { type: "heading", level: 2, content: "Version Information" },
-      {
-        type: "list",
-        items: [
-          "Current Version – 1.2.15",
-          "License – MIT",
-          "Runtime – Node.js 22.x",
-          "Forge API Version – 6.1.1",
-        ],
-      },
-      { type: "heading", level: 2, content: "Support" },
-      {
-        type: "text",
-        content:
-          "For questions, issues, or feature requests, please refer to the Support and Contact Information.",
-      },
     ],
     tableOfContents: [
       { title: "Introduction", anchor: "#introduction" },
@@ -560,18 +472,16 @@ console.log('Ahoy, changelog!', histories.length);
       { title: "Target Audience", anchor: "#target-audience" },
       { title: "Use Cases", anchor: "#use-cases" },
       { title: "How It Works", anchor: "#how-it-works" },
-      { title: "Platform Compatibility", anchor: "#platform-compatibility" },
-      { title: "Architecture", anchor: "#architecture" },
-      { title: "Data Privacy", anchor: "#data-privacy" },
-      { title: "Next Steps", anchor: "#next-steps" },
-      { title: "Version Information", anchor: "#version-information" },
-      { title: "Support", anchor: "#support" },
     ],
+    navigation: {
+      previous: { title: "Issue Changelog", target: "issue-changelog" },
+      next: { title: "Features and Capabilities", target: "features" },
+    },
   },
 
   features: {
     breadcrumbs: [
-      { title: "Documentation", link: "#" },
+      { title: "Issue Change Log", link: "#" },
       { title: "Features", link: "#" },
     ],
     title: "Features and Capabilities",
@@ -590,29 +500,21 @@ console.log('Ahoy, changelog!', histories.length);
           "CSV export and time-based filtering for reporting",
         ],
       },
-      // Permission Control heading and description (placed directly beneath the yellow objectives banner)
+
+      { type: "heading", level: 2, content: "Core Features" },
+
       {
         type: "heading",
         level: 2,
-        content: "Permission Control",
+        content: "Two-Tier Access Control",
       },
-      {
-        type: "text",
-        content:
-          'Issue Change Log uses a <mark class="company-managed-highlight">two-level access model</mark> for better security and flexibility. At the **site level**, **Jira administrators** authorize which projects can use the app through Jira Settings → Apps → Issue Change Log Settings. At the **project level**, **project administrators** can then enable or disable the app for their specific project. Once enabled, all users with access to the project can view the issue change logs.',
-      },
-      // Permission-control screenshots (project and issue-panel images follow)
+
       {
         type: "heading",
         level: 3,
         content: "Site Administrator Configuration",
-        className: "no-divider spaced-above",
       },
-      {
-        type: "text",
-        content:
-          "The Site Administrator Configuration panel allows Jira site administrators to control which projects can access the Issue Change Log app. It represents the first level of a two-tier access control system—site administrators authorize projects, while project administrators manage app enablement within their own projects.",
-      },
+
       {
         type: "image",
         src: "jira-admin-2.png",
@@ -624,7 +526,7 @@ console.log('Ahoy, changelog!', histories.length);
       },
       {
         type: "heading",
-        level: 3,
+        level: 4,
         content: "Features and Navigation",
       },
       {
@@ -639,7 +541,7 @@ console.log('Ahoy, changelog!', histories.length);
           "Use the Smart Search bar to quickly find specific projects.",
           "Select projects individually or use Select All for bulk authorization.",
           "Review the real-time count of selected projects.",
-          "Click Add [X] Projects to authorize or Clear Selection to reset.",
+          "Click Add Projects to authorize or Clear Selection to reset.",
           "Once authorized, project administrators can enable or disable the app from their Project Settings.",
         ],
       },
@@ -662,6 +564,16 @@ console.log('Ahoy, changelog!', histories.length);
         </div>
         `,
       },
+      {
+        type: "image",
+        src: "jira-admin-4.jpg",
+        alt: "Authorized Projects Management - project list and controls",
+      },
+      
+      {
+        type: "html",
+        content: `<div style="margin-top: 5cm;"></div>`,
+      },
 
       /* {
         type: "text",
@@ -678,6 +590,25 @@ console.log('Ahoy, changelog!', histories.length);
           <div class="content-text">
             <h3 class="content-heading">Authorized Projects Management</h3>
             <p>The <strong>Authorized Projects Management</strong> section allows Jira administrators to view and control which projects have access to the <strong>Issue Change Log</strong> app. It lists each project's name, key, ID, and authorization date, with options to remove access individually or in bulk using the <strong>Remove Selected</strong> action. This centralized control ensures clear visibility, efficient permission management, and easy updates as organizational needs evolve.</p>
+          </div>
+        </div>
+        `,
+      },
+      {
+        type: "html",
+        content: `<div style="margin-top: 2cm;"></div>`,
+      },
+      {
+        type: "html",
+        content: `
+        <div class="content-with-image reverse">
+          <div class="content-text">
+            <h4 class="content-heading" style="font-weight: bold;">Project Authorization Success</h4>
+            <p>When projects are successfully added to the authorization list, users will see a green confirmation message indicating how many projects were added. This immediate feedback confirms that the selected projects now have access to the Issue Change Log app and can begin using its features once enabled at the project level.</p>
+          </div>
+          <div class="image-with-expand">
+            <img src="jira-admin-5.jpg" alt="Issue Change Log Settings - Successfully added projects confirmation" style="border: 1px solid #0052CC; border-radius: 8px;" onerror="this.outerHTML='<div style=\'padding:80px;text-align:center;background:#f4f5f7;color:#6b778c;\'>Image placeholder</div>'" />
+            <button class="expand-icon" onclick="openImageModal('jira-admin-5.jpg', 'Issue Change Log Settings - Successfully added projects confirmation')" aria-label="Expand image">⤢</button>
           </div>
         </div>
         `,
@@ -703,9 +634,9 @@ console.log('Ahoy, changelog!', histories.length);
             y: 12,
             lineFrom: { x: 37, y: 12 },
             lineTo: { x: 42, y: 24 },
-            tooltipTitle: "Project Key",
+            tooltipTitle: "Project ID",
             tooltipDescription:
-              "The unique project key identifier used within Jira.",
+              "The internal project ID number assigned by Jira.",
           },
           {
             number: "3",
@@ -713,22 +644,13 @@ console.log('Ahoy, changelog!', histories.length);
             y: 12,
             lineFrom: { x: 48, y: 12 },
             lineTo: { x: 58, y: 24 },
-            tooltipTitle: "Project ID",
-            tooltipDescription:
-              "The internal project ID number assigned by Jira.",
-          },
-          {
-            number: "4",
-            x: 65,
-            y: 12,
-            lineFrom: { x: 65, y: 12 },
-            lineTo: { x: 75, y: 24 },
             tooltipTitle: "Authorization Date",
             tooltipDescription:
               "The date when the project was authorized to access the app.",
           },
+
           {
-            number: "5",
+            number: "4",
             x: 90,
             y: 31,
             lineFrom: { x: 90, y: 31 },
@@ -738,17 +660,17 @@ console.log('Ahoy, changelog!', histories.length);
               "Individual remove button to revoke access for this specific project.",
           },
           {
-            number: "6",
+            number: "5",
             x: 24,
             y: 69,
             lineFrom: { x: 25, y: 69 },
-            lineTo: { x: 35, y: 69},
+            lineTo: { x: 35, y: 69 },
             tooltipTitle: "Select All Checkbox",
             tooltipDescription:
               "Check this box to select all projects for bulk operations.",
           },
           {
-            number: "7",
+            number: "6",
             x: 90,
             y: 46,
             lineFrom: { x: 90, y: 45 },
@@ -760,11 +682,31 @@ console.log('Ahoy, changelog!', histories.length);
         ],
       },
       {
+        type: "heading",
+        level: 3,
+        content: "Project-Level Configuration",
+      },
+      {
+        type: "text",
+        content:
+          "Once a project has been authorized at the site level, project administrators can manage the app's enablement for their specific project. The project settings provide a simple interface to enable or disable the Issue Change Log app, giving project-level control over the feature's availability.",
+      },
+      {
         type: "image",
         src: "project-settings-1.png",
         alt: "Project settings screenshot (authorized view)",
         caption:
           "Authorized & enabled — project authorized by a site admin and enabled by project admin.",
+      },
+      {
+        type: "heading",
+        level: 4,
+        content: "Unauthorized Project State",
+      },
+      {
+        type: "text",
+        content:
+          "When a project has **not been authorized** by a **site administrator**, project administrators will see a clear warning message indicating that access must be requested. This ensures transparency about the authorization requirement and provides guidance on the next steps to enable the app.",
       },
       {
         type: "image",
@@ -773,12 +715,28 @@ console.log('Ahoy, changelog!', histories.length);
         caption:
           "Not authorized — this project has not been authorized for the app; request access from a site administrator.",
       },
-      { type: "heading", level: 2, content: "Issue Panel" },
+      { type: "heading", level: 4, content: "Issue Panel Access States" },
       {
         type: "text",
         content:
-          "The Issue Panel displays the app's availability state for a given issue. Below are screenshots showing the disabled and enabled states as they appear to end users and project admins.",
+          "The Issue Panel displays the app's availability state for a given issue, providing clear visual feedback to users about the current access status. This two-state system ensures users understand exactly why they can or cannot access the Issue Change Log functionality.",
       },
+      {
+        type: "text",
+        content:
+          "The panel displays different states based on authorization and enablement settings. Below are the three possible access states users will encounter.",
+      },
+      {
+        type: "heading",
+        level: 4,
+        content: "Authorized Project - App Disabled by Project Admin",
+      },
+      {
+        type: "text",
+        content:
+          "When a project is **authorized by the site administrator** but the **project administrator has not enabled** the app, users see a message directing them to contact their project administrators to enable the feature.",
+      },
+
       {
         type: "image",
         src: "issue-panel-1.png",
@@ -787,346 +745,148 @@ console.log('Ahoy, changelog!', histories.length);
           "Issue panel when app is disabled for the project; instructs users to contact project admins to enable the app.",
       },
       {
+        type: "heading",
+        level: 4,
+        content: "Unauthorized Project - No Site-Level Permission",
+      },
+      {
+        type: "text",
+        content:
+          "When a project has **not been authorized** by the site administrator, users see a message directing them to **contact site administrators** for project authorization before the app can be used.",
+      },
+      {
         type: "image",
         src: "issue-panel-2.png",
-        alt: "Issue panel - app enabled view",
+        alt: "Unauthorized project access showing message to contact site administrator",
         caption:
-          "Issue panel when the app is enabled — shows changelog content and export tools for authorized projects.",
-      },
-      { type: "heading", level: 2, content: "Core Features" },
-      { type: "heading", level: 3, content: "Comprehensive Change Tracking" },
-      {
-        type: "text",
-        content:
-          "The Issue Change Log provides full visibility into every change made within Jira issues, capturing both standard and custom field modifications. Each entry includes the previous and new values, the author of the change, exact timestamps, and the related issue key.",
-      },
-      {
-        type: "text",
-        content:
-          "Comment activity is thoroughly tracked, including comment content, author, creation and update timestamps, and edit history, all presented in chronological order.",
-      },
-      {
-        type: "text",
-        content:
-          "Attachment-related actions are also logged, recording the file name, size, MIME type, uploader, upload date, and content URL in compliance with Jira permission settings.",
-      },
-      {
-        type: "text",
-        content:
-          "All tracked data can be filtered by time and exported for reporting or analysis.",
+          "Issue panel displaying access denied message when project is not authorized by site administrator, with instructions to contact Jira administrator for access.",
+        expandable: true,
+        expandIcon: `
+          <div class="expand-icon" onclick="expandImage(this)">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>`,
       },
 
-      { type: "heading", level: 3, content: "Advanced Filtering System" },
       {
-        type: "text",
-        content:
-          "A built-in, time-based filtering system allows users to quickly view activity within specific timeframes such as the last 24 hours, 7 days, 30 days, 6 months, 1 year, or the full change history.",
+        type: "heading",
+        level: 4,
+        content: "Enabled State - Main Interface",
       },
       {
         type: "text",
         content:
-          "Filters are applied instantly without page reloads and work in conjunction with pagination to maintain performance on large issues. The data fetching mechanism retrieves only the information required for the selected timeframe, ensuring efficient performance and reduced load times.",
-      },
-
-      { type: "heading", level: 3, content: "Data Export Capabilities" },
-      {
-        type: "text",
-        content:
-          "Users can export the visible change log data to a CSV file with a single click. The exported file includes all relevant data such as field changes, comments, and attachments, along with authors and ISO-formatted timestamps.",
+          "When the app is **properly authorized and enabled**, users see the complete Issue Change Log interface with a comprehensive table showing **WHO changed**, **WHAT changed**, and **WHEN changed**. The interface includes filterable columns for Author, Field/Content, From, To, and Date with dropdown filters for each column.",
       },
       {
-        type: "text",
-        content:
-          "The CSV follows a consistent schema containing columns such as Type, Field, From, To, Author, Date, Issue Key, Content, Filename, and Size.",
+        type: "image",
+        src: "feature-1.png",
+        alt: "Issue Change Log main interface with WHO/WHAT/WHEN columns",
+        caption:
+          "Main Issue Change Log interface showing changelog table with filtering options and change history data.",
       },
       {
-        type: "text",
-        content:
-          "Each export is automatically named using the format issue-changelog-{ISSUE-KEY}.csv for easy reference. The exported files are fully compatible with Excel, Google Sheets, and analytics tools such as Power BI or Tableau.",
-      },
-
-      { type: "heading", level: 3, content: "Two-Tier Access Control" },
-      {
-        type: "text",
-        content:
-          "Access to the app is managed through a two-tier control system consisting of site-level authorization and project-level enablement.",
+        type: "heading",
+        level: 4,
+        content: "Export CSV Functionality",
       },
       {
         type: "text",
         content:
-          "At the site level, Jira administrators can authorize which projects have access to the app. They can search, filter, add, or remove projects individually or in bulk.",
+          "Users can **export changelog data** by clicking the Export CSV button. The system generates a downloadable CSV file containing all the change history data, which can be opened in Excel or other spreadsheet applications for further analysis.",
+      },
+      {
+        type: "image",
+        src: "feature-2.png",
+        alt: "Export CSV feature showing download process and resulting spreadsheet",
+        caption:
+          "Export CSV feature with download notification and resulting spreadsheet view of changelog data.",
+      },
+      {
+        type: "heading",
+        level: 4,
+        content: "Pagination Controls",
       },
       {
         type: "text",
         content:
-          "At the project level, project administrators can enable or disable the app through a simple toggle interface.",
+          "For large change histories, the interface provides **pagination controls** at the bottom. Users can adjust the number of items per page (default 25) and navigate between pages using Previous/Next buttons and page numbers.",
+      },
+      {
+        type: "image",
+        src: "feature-3.png",
+        alt: "Pagination controls showing items per page selector and navigation",
+        caption:
+          "Pagination controls allowing users to adjust display count and navigate through multiple pages of change history.",
+      },
+      {
+        type: "heading",
+        level: 4,
+        content: "Advanced Filtering Options",
       },
       {
         type: "text",
         content:
-          "This design ensures centralized administrative control while providing flexibility for project-specific configuration and audit visibility.",
-      },
-
-      { type: "heading", level: 3, content: "User Interface Features" },
-      {
-        type: "text",
-        content:
-          "The app’s interface is designed with usability and clarity in mind. The main issue panel features a responsive layout aligned with Jira’s native design, including:",
+          "The interface provides **comprehensive filtering capabilities** across all data columns. Users can filter by Author (selecting specific team members), Field/Content (choosing which types of changes to view), From/To values (searching for specific value changes), and Date ranges with preset options like 'Just now', '5 minutes ago', '2 hours ago', '3 days ago', '1 week ago', '1 month ago', or custom time periods.",
       },
       {
-        type: "list",
-        items: [
-          "A time filter dropdown",
-          "An export button",
-          "A sortable change log table with a fixed header",
-          "Pagination controls and total record count display",
-        ],
-      },
-      {
-        type: "text",
-        content:
-          "The admin panel provides a dual-section layout showing authorized projects and allowing administrators to add new ones using bulk selection and search functionality.",
-      },
-      {
-        type: "text",
-        content:
-          "Project-level settings are accessible under Project Settings → Apps → Issue Change Log, where users can manage app status, permissions, and enable/disable options with clear instructions.",
-      },
-
-      { type: "heading", level: 3, content: "Performance Optimizations" },
-      {
-        type: "text",
-        content:
-          "Performance is maintained through pagination (20 items per page by default), lazy loading, and intelligent caching.",
-      },
-      {
-        type: "text",
-        content:
-          "Data retrieval is handled using efficient, batched, and parallelized API calls with built-in throttling to respect Jira API rate limits.",
-      },
-      {
-        type: "text",
-        content:
-          "The app includes comprehensive error handling and user feedback mechanisms to ensure smooth and responsive performance even when dealing with large data sets.",
-      },
-
-      { type: "heading", level: 3, content: "Security Features" },
-      {
-        type: "text",
-        content:
-          "The Issue Change Log app does not store issue data outside Jira. Only minimal configuration data is stored in Forge’s secure storage.",
-      },
-      {
-        type: "text",
-        content:
-          "All operations strictly adhere to Jira’s permission and visibility rules. Communication between the app and Jira is fully encrypted over HTTPS, with authentication and token handling managed by the Forge framework.",
-      },
-      {
-        type: "text",
-        content:
-          "The multi-level security model spans Forge’s runtime isolation, Jira user authentication, site and project authorization, and issue-level permissions. All administrative actions are logged for auditing and compliance purposes.",
-      },
-
-      { type: "heading", level: 3, content: "Compatibility" },
-      {
-        type: "text",
-        content:
-          "The application is fully compatible with Jira Cloud across all plan tiers and supports all project types.",
-      },
-      {
-        type: "text",
-        content:
-          "It works seamlessly in all modern browsers, including Chrome, Firefox, Safari, and Edge, and features a responsive interface optimized for mobile use.",
-      },
-      {
-        type: "text",
-        content:
-          "Jira Data Center and Server editions are not supported since Atlassian Forge is available exclusively for Jira Cloud.",
-      },
-
-      { type: "heading", level: 3, content: "Integration Capabilities" },
-      {
-        type: "text",
-        content:
-          "Built using the Atlassian Forge framework, the app integrates natively with Jira through modules such as issue panel, admin settings, and project settings.",
-      },
-      {
-        type: "text",
-        content: "It uses the Jira REST API v3 for data access and management.",
-      },
-      {
-        type: "text",
-        content:
-          "The CSV export functionality ensures easy integration with external analytics platforms such as Excel, Google Sheets, Power BI, and Tableau for deeper data visualization and reporting.",
-      },
-
-      { type: "heading", level: 3, content: "Scalability" },
-      {
-        type: "text",
-        content:
-          "The app is designed for scalability, efficiently handling large change histories using optimized pagination and filtering mechanisms.",
-      },
-      {
-        type: "text",
-        content:
-          "It supports concurrent use across multiple projects and users without performance degradation.",
-      },
-      {
-        type: "text",
-        content:
-          "The serverless Forge infrastructure automatically scales with demand, ensuring consistent reliability without the need for infrastructure management.",
-      },
-
-      { type: "heading", level: 2, content: "Feature Access Summary" },
-      {
-        type: "text",
-        content:
-          "The app provides a clear distinction between user roles and capabilities:",
-      },
-      {
-        type: "list",
-        items: [
-          "End Users can view change logs, apply time filters, and export data to CSV.",
-          "Project Administrators manage project-level enablement of the app.",
-          "Site Administrators control global authorization for projects and perform bulk management operations.",
-        ],
-      },
-      {
-        type: "text",
-        content:
-          "All change types—including field updates, comments, attachments, and status transitions—are tracked, filterable by time, and exportable for reporting or analysis.",
-      },
-
-      { type: "heading", level: 2, content: "Feature Roadmap (Planned)" },
-      { type: "text", content: "Planned enhancements include:" },
-      {
-        type: "list",
-        items: [
-          "Advanced filtering by field, author, and preset conditions",
-          "Interactive visual timelines and analytics dashboards",
-          "Configurable notifications and webhooks",
-          "Cross-issue and bulk export capabilities",
-          "Advanced metrics for workflow trends and bottleneck analysis",
-        ],
-      },
-      {
-        type: "text",
-        content:
-          "These features are under consideration and not yet part of the current release.",
-      },
-
-      { type: "heading", level: 2, content: "Current Limitations" },
-      {
-        type: "text",
-        content:
-          "At present, the app supports tracking for a single issue at a time and provides only time-based filtering within the interface.",
-      },
-      {
-        type: "text",
-        content:
-          "It does not include built-in notifications and is limited to Jira Cloud environments.",
-      },
-      {
-        type: "text",
-        content:
-          "The CSV export schema is fixed, though users can perform advanced analysis through external tools such as Excel or Google Sheets.",
-      },
-      {
-        type: "text",
-        content:
-          "Notifications can be replicated using Jira automation rules or third-party integrations.",
-      },
-
-      { type: "heading", level: 2, content: "Technical Specifications" },
-      {
-        type: "text",
-        content: "The app leverages Jira REST API v3 endpoints, including:",
-      },
-      {
-        type: "list",
-        items: [
-          "/rest/api/3/issue/{issueKey}?expand=changelog",
-          "/rest/api/3/issue/{issueKey}/comment",
-          "/rest/api/3/project",
-        ],
-      },
-      { type: "text", content: "It uses the following libraries and runtime:" },
-      {
-        type: "list",
-        items: [
-          "@forge/api version 6.1.1",
-          "@forge/resolver version 1.7.0",
-          "Node.js 22.x runtime on the Forge serverless platform",
-        ],
-      },
-      {
-        type: "text",
-        content:
-          "Forge storage is used exclusively for configuration data, and no issue data is stored externally.",
-      },
-
-      { type: "heading", level: 2, content: "Next Steps" },
-      {
-        type: "list",
-        items: [
-          "Installation: Refer to Installation Guide",
-          "Configuration: Refer to Configuration and Setup",
-          "Usage: Refer to User Guide",
-        ],
-      },
-
-      { type: "heading", level: 2, content: "Support" },
-      {
-        type: "text",
-        content:
-          "For feature requests, issues, or general inquiries, visit the Support and Contact Information page for assistance.",
+        type: "image",
+        src: "feature-4.png",
+        alt: "Filter section overview showing all available dropdown options and filters",
+        caption:
+          "Comprehensive filtering interface with dropdown options for Author, Field/Content, From, To, and Date filters including preset time ranges.",
       },
     ],
     tableOfContents: [
       { title: "Core Features", anchor: "#core-features" },
-      {
-        title: "Comprehensive Change Tracking",
-        anchor: "#comprehensive-change-tracking",
-      },
-      {
-        title: "Advanced Filtering System",
-        anchor: "#advanced-filtering-system",
-      },
-      {
-        title: "Data Export Capabilities",
-        anchor: "#data-export-capabilities",
-      },
       { title: "Two-Tier Access Control", anchor: "#two-tier-access-control" },
-      { title: "User Interface Features", anchor: "#user-interface-features" },
       {
-        title: "Performance Optimizations",
-        anchor: "#performance-optimizations",
+        title: "Site Administrator Configuration",
+        anchor: "#site-administrator-configuration",
       },
-      { title: "Security Features", anchor: "#security-features" },
-      { title: "Compatibility", anchor: "#compatibility" },
       {
-        title: "Integration Capabilities",
-        anchor: "#integration-capabilities",
+        title: "Project-Level Configuration",
+        anchor: "#project-level-configuration",
       },
-      { title: "Scalability", anchor: "#scalability" },
-      { title: "Feature Access Summary", anchor: "#feature-access-summary" },
       {
-        title: "Feature Roadmap (Planned)",
-        anchor: "#feature-roadmap-planned",
+        title: "Issue Panel Access States",
+        anchor: "#issue-panel-access-states",
       },
-      { title: "Current Limitations", anchor: "#current-limitations" },
       {
-        title: "Technical Specifications",
-        anchor: "#technical-specifications",
+        title: "Authorized Project - App Disabled by Project Admin",
+        anchor: "#authorized-project-app-disabled-by-project-admin",
       },
-      { title: "Next Steps", anchor: "#next-steps" },
-      { title: "Support", anchor: "#support" },
+      {
+        title: "Unauthorized Project - No Site-Level Permission",
+        anchor: "#unauthorized-project-no-site-level-permission",
+      },
+      {
+        title: "Enabled State - Main Interface",
+        anchor: "#enabled-state-main-interface",
+      },
+      {
+        title: "Export CSV Functionality",
+        anchor: "#export-csv-functionality",
+      },
+      {
+        title: "Pagination Controls",
+        anchor: "#pagination-controls",
+      },
+      {
+        title: "Advanced Filtering Options",
+        anchor: "#advanced-filtering-options",
+      },
     ],
+    navigation: {
+      previous: { title: "Get Started", target: "app-overview" },
+      next: { title: "Installation Guide", target: "installation" },
+    },
   },
 
   installation: {
     breadcrumbs: [
-      { title: "Documentation", link: "#" },
+      { title: "Issue Change Log", link: "#" },
       { title: "Installation", link: "#" },
     ],
     title: "Installation Guide",
@@ -1368,11 +1128,15 @@ console.log('Ahoy, changelog!', histories.length);
       { title: "Upgrading the App", anchor: "#upgrading-the-app" },
       { title: "Support", anchor: "#support" },
     ],
+    navigation: {
+      previous: { title: "Features and Capabilities", target: "features" },
+      next: { title: "Configuration and Setup", target: "configuration" },
+    },
   },
 
   configuration: {
     breadcrumbs: [
-      { title: "Documentation", link: "#" },
+      { title: "Issue Change Log", link: "#" },
       { title: "Configuration", link: "#" },
     ],
     title: "Configuration and Setup",
@@ -1426,98 +1190,15 @@ console.log('Ahoy, changelog!', histories.length);
       { title: "Project Enablement", anchor: "#project-enablement" },
       { title: "Feature Flags", anchor: "#feature-flags" },
     ],
-  },
-
-  "user-guide": {
-    breadcrumbs: [
-      { title: "Documentation", link: "#" },
-      { title: "User Guide", link: "#" },
-    ],
-    title: "User Guide / Usage Instructions",
-    description:
-      "Practical step-by-step instructions for end users and common workflows used to analyze change history.",
-    sections: [
-      { type: "heading", level: 2, content: "Getting Started" },
-      {
-        type: "text",
-        content:
-          "Open an issue in a project where the app is enabled and look for the Issue Change Log panel in the issue view. The panel lists recent events and provides filters to narrow the results.",
-      },
-      { type: "heading", level: 2, content: "Common Workflows" },
-      {
-        type: "list",
-        items: [
-          "Investigate who changed a field value and when",
-          "Extract change history for CSV-based audits",
-          "Quickly find comment edits and previous comment content",
-          "Review attachment add/remove events during releases",
-        ],
-      },
-      { type: "heading", level: 2, content: "Filtering & Searching" },
-      {
-        type: "text",
-        content:
-          "Use the time-range presets, author selectors and field checkboxes to reduce noise. Combined filters are applied conjunctively (AND). Use the search input to match free-text inside change descriptions and comments.",
-      },
-      { type: "heading", level: 2, content: "Exporting and Saving Results" },
-      {
-        type: "text",
-        content:
-          "Use Export → CSV to download the current view. For printable reports, use Save as PDF; the filename contains the chosen version and timestamp for traceability.",
-      },
-    ],
-    tableOfContents: [
-      { title: "Getting Started", anchor: "#getting-started" },
-      { title: "Common Workflows", anchor: "#common-workflows" },
-      { title: "Filtering & Searching", anchor: "#filtering-searching" },
-    ],
-  },
-
-  faq: {
-    breadcrumbs: [
-      { title: "Documentation", link: "#" },
-      { title: "FAQ", link: "#" },
-    ],
-    title: "FAQ / Troubleshooting",
-    description:
-      "Answers to frequently asked questions and practical troubleshooting steps for common failure modes.",
-    sections: [
-      { type: "heading", level: 2, content: "General Questions" },
-      {
-        type: "text",
-        content:
-          "Q: What does the app record? A: Field changes, comment edits, and attachment events with metadata. It does not store issue content externally.",
-      },
-      {
-        type: "heading",
-        level: 2,
-        content: "I don't see the panel — what to check",
-      },
-      {
-        type: "list",
-        items: [
-          "Confirm site-level installation in 'Manage apps'",
-          "Verify project-level enablement in Project Settings → Apps",
-          "Ensure you have permission to view the issue and that the issue belongs to an enabled project",
-        ],
-      },
-      { type: "heading", level: 2, content: "Performance & Errors" },
-      {
-        type: "text",
-        content:
-          "If large histories are slow, narrow the time window or use export to obtain a snapshot. For errors, check the browser console and supply logs when opening a support ticket.",
-      },
-    ],
-    tableOfContents: [
-      { title: "General Questions", anchor: "#general-questions" },
-      { title: "Panel Visibility", anchor: "#panel-visibility" },
-      { title: "Performance & Errors", anchor: "#performance-errors" },
-    ],
+    navigation: {
+      previous: { title: "Installation Guide", target: "installation" },
+      next: { title: "Support and Contact Information", target: "support" },
+    },
   },
 
   support: {
     breadcrumbs: [
-      { title: "Documentation", link: "#" },
+      { title: "Issue Change Log", link: "#" },
       { title: "Support", link: "#" },
     ],
     title: "Support and Contact Information",
@@ -1551,49 +1232,15 @@ console.log('Ahoy, changelog!', histories.length);
       { title: "How to Report a Bug", anchor: "#how-to-report" },
       { title: "SLA & Response", anchor: "#sla" },
     ],
-  },
-
-  "release-notes": {
-    breadcrumbs: [
-      { title: "Documentation", link: "#" },
-      { title: "Release Notes", link: "#" },
-    ],
-    title: "Release Notes / Changelog",
-    description:
-      "Detailed changelog entries, upgrade notes, compatibility and breaking change guidance for each release.",
-    sections: [
-      { type: "heading", level: 2, content: "Version 1.2.15" },
-      {
-        type: "list",
-        items: [
-          "Added: Export to CSV preserving filters",
-          "Improved: Lazy-loading performance for long histories",
-          "Fixed: Attachment download permission check bug",
-        ],
-      },
-      { type: "heading", level: 2, content: "Upgrade Notes" },
-      {
-        type: "text",
-        content:
-          "Upgrades from older major versions are non-destructive for configuration; however, if you use custom integrations or scripts that depended on internal endpoints, verify compatibility. Use 'forge deploy' in a staging site before production upgrades.",
-      },
-      { type: "heading", level: 2, content: "Roadmap Highlights" },
-      {
-        type: "text",
-        content:
-          "Planned features include richer diffs for large text fields, scheduled exports and webhooks for integrations.",
-      },
-    ],
-    tableOfContents: [
-      { title: "Version 1.2.15", anchor: "#v1-2-15" },
-      { title: "Upgrade Notes", anchor: "#upgrade-notes" },
-      { title: "Roadmap", anchor: "#roadmap" },
-    ],
+    navigation: {
+      previous: { title: "Configuration and Setup", target: "configuration" },
+      next: { title: "Security and Privacy", target: "security" },
+    },
   },
 
   security: {
     breadcrumbs: [
-      { title: "Documentation", link: "#" },
+      { title: "Issue Change Log", link: "#" },
       { title: "Security", link: "#" },
     ],
     title: "Security and Privacy",
@@ -1636,127 +1283,15 @@ console.log('Ahoy, changelog!', histories.length);
       { title: "Data Handling", anchor: "#data-handling" },
       { title: "Recommendations", anchor: "#recommendations" },
     ],
-  },
-
-  compliance: {
-    breadcrumbs: [
-      { title: "Documentation", link: "#" },
-      { title: "Compliance", link: "#" },
-    ],
-    title: "Business Verification and Compliance",
-    description:
-      "Information useful for procurement, security reviews and compliance teams evaluating the app for enterprise use.",
-    sections: [
-      { type: "heading", level: 2, content: "Certifications & Attestations" },
-      {
-        type: "text",
-        content:
-          "Forge-hosted apps benefit from Atlassian's platform certifications (SOC2, ISO27001). The app itself is developed following secure SDLC practices; reach out to vendor contact for attestation details.",
-      },
-      { type: "heading", level: 2, content: "Data Residency & GDPR" },
-      {
-        type: "text",
-        content:
-          "Issue data remains in the customer's Jira instance; the app does not export data to external servers. Data subject requests should be handled via Jira's native tooling and app uninstallation if config data removal is required.",
-      },
-      { type: "heading", level: 2, content: "Procurement Checklist" },
-      {
-        type: "list",
-        items: [
-          "Vendor legal & security contact",
-          "Supported SLAs and commercial terms",
-          "Compatibility with organization's procurement and procurement approval pipeline",
-        ],
-      },
-    ],
-    tableOfContents: [
-      { title: "Certifications", anchor: "#certifications" },
-      { title: "Data Residency", anchor: "#data-residency" },
-      { title: "Procurement Checklist", anchor: "#procurement" },
-    ],
-  },
-
-  marketplace: {
-    breadcrumbs: [
-      { title: "Documentation", link: "#" },
-      { title: "Marketplace", link: "#" },
-    ],
-    title: "Marketplace Listing Content",
-    description:
-      "Copy and assets intended for Marketplace listing including short/long descriptions, screenshots guidance and key selling points.",
-    sections: [
-      { type: "heading", level: 2, content: "Short Description" },
-      {
-        type: "text",
-        content:
-          "Visualize and export complete change histories for Jira issues — fields, comments and attachments.",
-      },
-      { type: "heading", level: 2, content: "Long Description & Benefits" },
-      {
-        type: "text",
-        content:
-          "Provides teams with auditable history of issue changes. Ideal for regulated workflows, incident postmortems, and compliance reporting.",
-      },
-      { type: "heading", level: 2, content: "Screenshots & Media" },
-      {
-        type: "list",
-        items: [
-          "Include timeline view screenshot",
-          "Show export modal and filters UI",
-          "Provide an example CSV snippet",
-        ],
-      },
-    ],
-    tableOfContents: [
-      { title: "Short Description", anchor: "#short-desc" },
-      { title: "Long Description", anchor: "#long-desc" },
-      { title: "Screenshots", anchor: "#screenshots" },
-    ],
-  },
-
-  pricing: {
-    breadcrumbs: [
-      { title: "Documentation", link: "#" },
-      { title: "Pricing", link: "#" },
-    ],
-    title: "Pricing and Evaluation",
-    description:
-      "Suggested pricing tiers, evaluation checklist and guidance for choosing the right plan for different team sizes.",
-    sections: [
-      { type: "heading", level: 2, content: "Tiers" },
-      {
-        type: "list",
-        items: [
-          "Community / OSS: MIT-licensed with self-deploy instructions",
-          "Marketplace: per-user or tiered pricing depending on instance size",
-          "Enterprise: contact sales for custom licensing and SLAs",
-        ],
-      },
-      { type: "heading", level: 2, content: "Evaluation Checklist" },
-      {
-        type: "list",
-        items: [
-          "Install in a staging instance and run sample exports",
-          "Measure UI latency on typical issue histories",
-          "Verify security and procurement requirements",
-        ],
-      },
-      { type: "heading", level: 2, content: "Trial Recommendations" },
-      {
-        type: "text",
-        content:
-          "Run a 30-day trial during which the team performs at least two audits and one export to validate correctness.",
-      },
-    ],
-    tableOfContents: [
-      { title: "Tiers", anchor: "#tiers" },
-      { title: "Evaluation", anchor: "#evaluation" },
-    ],
+    navigation: {
+      previous: { title: "Support and Contact Information", target: "support" },
+      next: { title: "Privacy Policy", target: "privacy" },
+    },
   },
 
   privacy: {
     breadcrumbs: [
-      { title: "Documentation", link: "#" },
+      { title: "Issue Change Log", link: "#" },
       { title: "Privacy Policy", link: "#" },
     ],
     title: "Privacy Policy",
@@ -1787,80 +1322,10 @@ console.log('Ahoy, changelog!', histories.length);
       { title: "Third-Party Sharing", anchor: "#third-party" },
       { title: "Data Subject Rights", anchor: "#rights" },
     ],
-  },
-
-  terms: {
-    breadcrumbs: [
-      { title: "Documentation", link: "#" },
-      { title: "Terms of Service", link: "#" },
-    ],
-    title: "Terms of Service",
-    description:
-      "High-level terms, licensing and responsibility statements. This is a summary; consult full license files for legal details.",
-    sections: [
-      { type: "heading", level: 2, content: "License" },
-      {
-        type: "text",
-        content:
-          "Open-source distributions use the MIT license by default. Commercial Marketplace listings include terms defined by the vendor.",
-      },
-      { type: "heading", level: 2, content: "Warranty & Liability" },
-      {
-        type: "text",
-        content:
-          "Software is provided 'as-is' without warranty. The vendor's liability is limited as described in the full terms.",
-      },
-      { type: "heading", level: 2, content: "Acceptable Use" },
-      {
-        type: "text",
-        content:
-          "Customers must not use the app to exfiltrate sensitive data; follow your organization's security policies when exporting or sharing reports.",
-      },
-    ],
-    tableOfContents: [
-      { title: "License", anchor: "#license" },
-      { title: "Warranty", anchor: "#warranty" },
-      { title: "Acceptable Use", anchor: "#acceptable-use" },
-    ],
-  },
-
-  "quality-assurance": {
-    breadcrumbs: [
-      { title: "Documentation", link: "#" },
-      { title: "Quality Assurance", link: "#" },
-    ],
-    title: "Quality Assurance",
-    description:
-      "Testing strategy, automation guidance and release checklists to ensure high quality releases.",
-    sections: [
-      { type: "heading", level: 2, content: "Testing Strategy" },
-      {
-        type: "text",
-        content:
-          "Follow the test pyramid: unit tests for small logic, integration tests for API interactions, and E2E tests to validate user flows. Add security and accessibility scans as part of CI.",
-      },
-      { type: "heading", level: 2, content: "CI/CD & Release Checks" },
-      {
-        type: "list",
-        items: [
-          "Automated tests must pass on PRs",
-          "Run accessibility checks (axe or similar)",
-          "Performance smoke tests for long histories",
-          "Update documentation and changelog entries before release",
-        ],
-      },
-      { type: "heading", level: 2, content: "Post-Release Monitoring" },
-      {
-        type: "text",
-        content:
-          "Monitor support channels and error telemetry for regression. Triage and patch critical issues quickly using hotfix releases.",
-      },
-    ],
-    tableOfContents: [
-      { title: "Testing Strategy", anchor: "#testing-strategy" },
-      { title: "CI/CD", anchor: "#ci-cd" },
-      { title: "Post-Release", anchor: "#post-release" },
-    ],
+    navigation: {
+      previous: { title: "Security and Privacy", target: "security" },
+      next: null,
+    },
   },
 };
 

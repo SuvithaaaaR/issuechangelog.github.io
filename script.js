@@ -66,7 +66,6 @@ function loadSectionContent(sectionId) {
         // Build a simple TOC from h2/h3 headings inside the rendered HTML
         buildTocFromContent();
         addCopyButtons();
-        addContentRevealAnimation();
       })
       .catch((err) => {
         console.error(err);
@@ -329,9 +328,15 @@ function loadSectionContent(sectionId) {
                       })()
                     : ""
                 }
-                <div class="annotation-tag" style="left: ${
-                  annotation.x
-                }%; top: ${annotation.y}%; transform: translate(-50%, -50%);" 
+                <div class="annotation-tag${
+                  annotation.number === "5" || annotation.number === "4"
+                    ? " tooltip-top"
+                    : ""
+                }${
+                          annotation.number === "6" ? " tooltip-bottom" : ""
+                        }" style="left: ${annotation.x}%; top: ${
+                          annotation.y
+                        }%; transform: translate(-50%, -50%);" 
                 data-tooltip-title="${annotation.tooltipTitle || ""}" 
                 data-tooltip-description="${
                   annotation.tooltipDescription || ""
@@ -423,6 +428,38 @@ function loadSectionContent(sectionId) {
     )
     .join("");
 
+  // Add navigation (previous/next) if it exists
+  if (content.navigation) {
+    const navigationHtml = buildPageNavigation(content.navigation);
+    articleContent.innerHTML += navigationHtml;
+
+    // Add event listeners for navigation links
+    document.querySelectorAll(".page-nav-link[data-target]").forEach((link) => {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        const target = this.getAttribute("data-target");
+        if (target && sectionContents[target]) {
+          loadSectionContent(target);
+
+          // Update sidebar active state
+          const targetSection = document.querySelector(
+            `[data-section-id="${target}"]`
+          );
+          if (targetSection) {
+            document.querySelectorAll(".nav-section-title").forEach((t) => {
+              t.classList.remove("active-section");
+            });
+            const titleElement =
+              targetSection.querySelector(".nav-section-title");
+            if (titleElement) {
+              titleElement.classList.add("active-section");
+            }
+          }
+        }
+      });
+    });
+  }
+
   // Re-attach TOC event listeners
   document.querySelectorAll(".toc-link").forEach((link) => {
     link.addEventListener("click", function (e) {
@@ -458,9 +495,44 @@ function loadSectionContent(sectionId) {
   // Scroll to top
   window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // Enhance code blocks and animations
+  // Enhance code blocks
   addCopyButtons();
-  addContentRevealAnimation();
+}
+
+// Build page navigation HTML
+function buildPageNavigation(navigation) {
+  if (!navigation) return "";
+
+  const previousHtml = navigation.previous
+    ? `<a href="#" class="page-nav-link previous" data-target="${navigation.previous.target}">
+         <svg class="page-nav-icon" viewBox="0 0 16 16" fill="none">
+           <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+         </svg>
+         <div class="page-nav-content">
+           <div class="page-nav-label">Previous page</div>
+           <div class="page-nav-title">${navigation.previous.title}</div>
+         </div>
+       </a>`
+    : '<div class="page-nav-spacer"></div>';
+
+  const nextHtml = navigation.next
+    ? `<a href="#" class="page-nav-link next" data-target="${navigation.next.target}">
+         <div class="page-nav-content">
+           <div class="page-nav-label">Next page</div>
+           <div class="page-nav-title">${navigation.next.title}</div>
+         </div>
+         <svg class="page-nav-icon" viewBox="0 0 16 16" fill="none">
+           <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+         </svg>
+       </a>`
+    : '<div class="page-nav-spacer"></div>';
+
+  return `
+    <nav class="page-navigation">
+      ${previousHtml}
+      ${nextHtml}
+    </nav>
+  `;
 }
 
 // Build a Twilio-like hero for the Issue Changelog landing
@@ -774,56 +846,25 @@ function updateActiveLink() {
 
 // Create back-to-top button
 function createBackToTopButton() {
-  const button = document.createElement("button");
-  button.id = "backToTop";
-  button.innerHTML = "↑";
-  button.setAttribute("aria-label", "Back to top");
-  button.style.cssText = `
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s;
-    box-shadow: 0 4px 12px rgba(0, 82, 204, 0.3);
-    z-index: 1000;
-  `;
+  const button = document.getElementById("backToTop");
 
-  document.body.appendChild(button);
+  if (!button) {
+    console.error("Back to top button not found in HTML");
+    return;
+  }
 
   // Show/hide button on scroll
   window.addEventListener("scroll", function () {
     if (window.scrollY > 300) {
-      button.style.opacity = "1";
-      button.style.visibility = "visible";
+      button.classList.add("show");
     } else {
-      button.style.opacity = "0";
-      button.style.visibility = "hidden";
+      button.classList.remove("show");
     }
   });
 
   // Scroll to top on click
   button.addEventListener("click", function () {
     window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-
-  // Hover effect
-  button.addEventListener("mouseenter", function () {
-    this.style.transform = "translateY(-3px)";
-    this.style.boxShadow = "0 6px 16px rgba(0, 82, 204, 0.4)";
-  });
-
-  button.addEventListener("mouseleave", function () {
-    this.style.transform = "translateY(0)";
-    this.style.boxShadow = "0 4px 12px rgba(0, 82, 204, 0.3)";
   });
 }
 
@@ -1179,28 +1220,6 @@ function displaySearchResults(results, query) {
   });
 }
 
-// Add smooth reveal animation for content sections
-function addContentRevealAnimation() {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.style.animation = "fadeIn 0.6s ease-out";
-        }
-      });
-    },
-    { threshold: 0.1 }
-  );
-
-  document
-    .querySelectorAll(
-      ".text-content, .content-list, .info-box, .warning-box, .info-note"
-    )
-    .forEach((el) => {
-      observer.observe(el);
-    });
-}
-
 // Minimal markdown -> HTML converter (supports headings, paragraphs, unordered lists, and code blocks)
 function markdownToHtml(md) {
   // Normalize line endings
@@ -1406,256 +1425,6 @@ function showVersionNotification(version) {
   }, 3000);
 }
 
-// Initialize Save as PDF button
-function initializeSaveAsPdfButton() {
-  const btn = document.getElementById("savePdfBtn");
-  if (!btn) return;
-  // helper: render a section's 'sections' array into a container element
-  function renderSectionsToElement(sections) {
-    const container = document.createElement("div");
-    container.className = "pdf-section";
-    sections.forEach((section) => {
-      switch (section.type) {
-        case "heading": {
-          const h = document.createElement(`h${section.level || 2}`);
-          h.className = "content-heading";
-          h.textContent = section.content;
-          container.appendChild(h);
-          break;
-        }
-        case "text": {
-          const p = document.createElement("p");
-          p.className = "text-content";
-          p.innerHTML = section.content;
-          container.appendChild(p);
-          break;
-        }
-        case "list": {
-          const ul = document.createElement("ul");
-          ul.className = "content-list";
-          (section.items || []).forEach((it) => {
-            const li = document.createElement("li");
-            li.textContent = it;
-            ul.appendChild(li);
-          });
-          container.appendChild(ul);
-          break;
-        }
-        case "info-box": {
-          const box = document.createElement("div");
-          box.className = "info-box pdf-info-box";
-          box.innerHTML = `<h3>${
-            section.title || "Info"
-          }</h3><div class="info-content"><p>${section.content}</p></div>`;
-          container.appendChild(box);
-          break;
-        }
-        case "warning-box": {
-          const box = document.createElement("div");
-          box.className = "warning-box pdf-warning-box";
-          box.innerHTML = `<h3>${
-            section.title || "Warning"
-          }</h3><div class="warning-content"><p>${section.content}</p></div>`;
-          container.appendChild(box);
-          break;
-        }
-        case "image": {
-          const img = document.createElement("img");
-          img.src = section.src;
-          img.alt = section.alt || "";
-          img.style.maxWidth = "100%";
-          container.appendChild(img);
-          break;
-        }
-        case "annotated-image": {
-          const annotatedContainer = document.createElement("div");
-          annotatedContainer.className = "annotated-image-container";
-
-          const img = document.createElement("img");
-          img.src = section.src;
-          img.alt = section.alt || "";
-          annotatedContainer.appendChild(img);
-
-          // Add annotations if provided
-          if (section.annotations && Array.isArray(section.annotations)) {
-            section.annotations.forEach((annotation) => {
-              // Create line if coordinates provided
-              if (annotation.lineFrom && annotation.lineTo) {
-                const line = document.createElement("div");
-                line.className = "annotation-line";
-
-                // Calculate vertical line length (simplified for vertical lines)
-                const lineLength = Math.abs(
-                  annotation.lineTo.y - annotation.lineFrom.y
-                );
-
-                line.style.left = annotation.lineFrom.x + "%";
-                line.style.top = annotation.lineFrom.y + "%";
-                line.style.height = lineLength + "%";
-                annotatedContainer.appendChild(line);
-              }
-
-              // Create tag
-              const tag = document.createElement("div");
-              tag.className = "annotation-tag";
-              tag.textContent = annotation.number;
-              tag.style.left = annotation.x + "%";
-              tag.style.top = annotation.y + "%";
-              tag.style.transform = "translate(-50%, -50%)";
-              annotatedContainer.appendChild(tag);
-            });
-          }
-
-          container.appendChild(annotatedContainer);
-          break;
-        }
-        default:
-          // unknown types: render raw
-          const raw = document.createElement("div");
-          raw.innerHTML = section.content || "";
-          container.appendChild(raw);
-      }
-    });
-    return container;
-  }
-
-  btn.addEventListener("click", function (e) {
-    e.preventDefault();
-
-    // show notification
-    const notification = document.createElement("div");
-    notification.className = "version-notification";
-    notification.innerHTML = `
-      <div class="version-notification-content">
-        <span class="notification-icon">📄</span>
-        <span>Preparing PDF (this may take a moment)...</span>
-      </div>
-    `;
-    document.body.appendChild(notification);
-    setTimeout(() => notification.classList.add("show"), 50);
-
-    // build full document container
-    const full = document.createElement("div");
-    full.className = "pdf-full-document";
-
-    // Add header for PDF: title, version, date
-    const titleEl = document.getElementById("articleTitle");
-    const versionActive = document.querySelector(".dropdown-item.active");
-    const versionStr = versionActive
-      ? versionActive.getAttribute("data-version")
-      : "latest";
-    const header = document.createElement("div");
-    header.className = "pdf-header";
-    const h1 = document.createElement("h1");
-    h1.textContent = titleEl ? titleEl.textContent.trim() : "Documentation";
-    const meta = document.createElement("div");
-    meta.className = "pdf-meta";
-    const date = new Date().toLocaleDateString();
-    meta.textContent = `Version ${versionStr} • ${date}`;
-    header.appendChild(h1);
-    header.appendChild(meta);
-    full.appendChild(header);
-
-    // Iterate through navigationData to include all sections in order
-    (navigationData.sections || []).forEach((nav) => {
-      const id = nav.id;
-      const page = sectionContents[id];
-      if (!page) return;
-      // section title
-      const sectionWrap = document.createElement("section");
-      sectionWrap.className = "pdf-page";
-      const secTitle = document.createElement("h2");
-      secTitle.textContent = page.title || nav.title;
-      sectionWrap.appendChild(secTitle);
-
-      // render page sections
-      const rendered = renderSectionsToElement(page.sections || []);
-      sectionWrap.appendChild(rendered);
-
-      // optional page break
-      const pb = document.createElement("div");
-      pb.className = "page-break";
-      sectionWrap.appendChild(pb);
-
-      full.appendChild(sectionWrap);
-    });
-
-    // build filename
-    const safeTitle = (titleEl ? titleEl.textContent : "documentation")
-      .toLowerCase()
-      .replace(/[^a-z0-9\-\s]+/g, "")
-      .replace(/\s+/g, "-");
-    const filename = `${safeTitle}-${versionStr}-full.pdf`;
-
-    // Inject print-friendly CSS into wrapper
-    const style = document.createElement("style");
-    style.textContent = `
-      .pdf-full-document { font-family: Arial, Helvetica, sans-serif; color: #111; background: #fff; padding: 20px; }
-      .pdf-header h1 { margin: 0 0 6px 0; font-size: 20px; color: #0b3a66; }
-      .pdf-meta { font-size: 12px; color: #333; margin-bottom: 12px; }
-      h2 { color: #0b3a66; margin-top: 18px; }
-      p { color: #111; line-height: 1.5; }
-      .info-box, .pdf-info-box { border: 1px solid #cce4ff; background: #e9f5ff; padding: 10px; border-radius: 4px; }
-      .warning-box, .pdf-warning-box { border: 1px solid #ffd6a5; background: #fff4e6; padding: 10px; border-radius: 4px; }
-      .content-list { margin-left: 18px; }
-      .page-break { page-break-after: always; }
-      img { max-width: 100%; height: auto; }
-    `;
-
-    // append wrapper hidden and generate PDF
-    const wrapper = document.createElement("div");
-    wrapper.style.position = "fixed";
-    wrapper.style.left = "-9999px";
-    wrapper.appendChild(style);
-    wrapper.appendChild(full);
-    document.body.appendChild(wrapper);
-
-    if (window.html2pdf) {
-      const opt = {
-        margin: [10, 10, 10, 10],
-        filename: filename,
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
-        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-        pagebreak: { mode: ["css", "legacy"] },
-      };
-
-      html2pdf()
-        .set(opt)
-        .from(full)
-        .save()
-        .then(() => {
-          wrapper.remove();
-          setTimeout(() => {
-            notification.classList.remove("show");
-            setTimeout(() => notification.remove(), 300);
-          }, 800);
-        })
-        .catch((err) => {
-          console.error("PDF generation failed", err);
-          wrapper.remove();
-          setTimeout(() => {
-            notification.classList.remove("show");
-            setTimeout(() => notification.remove(), 300);
-          }, 800);
-        });
-    } else {
-      // fallback: cleanup and show message
-      console.warn("html2pdf not available, falling back to print dialog");
-      wrapper.remove();
-      setTimeout(() => {
-        notification.classList.remove("show");
-        setTimeout(() => notification.remove(), 300);
-      }, 800);
-      try {
-        window.print();
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  });
-}
-
 // Annotation tooltip toggle function
 function toggleAnnotationTooltip(element) {
   const tooltipTitle = element.getAttribute("data-tooltip-title");
@@ -1779,7 +1548,6 @@ function switchTab(tabId) {
 // Initialize version dropdown when page loads
 document.addEventListener("DOMContentLoaded", function () {
   initializeVersionDropdown();
-  initializeSaveAsPdfButton();
   initializeImageModal();
 });
 

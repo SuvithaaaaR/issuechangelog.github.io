@@ -438,7 +438,7 @@ body {
   --info-bg: #deebff;
   --info-border: #4c9aff;
   --sidebar-width: 280px;
-  --toc-width: 240px;
+  --toc-width: 200px;
   --header-height: 64px;
   /* Atlassian Design System – Typography tokens (approximate) */
   --font-family-base: "Charlie Text", "Charlie Sans", -apple-system,
@@ -524,8 +524,13 @@ a:active {
 
 /* Selection styling */
 ::selection {
-  background-color: var(--primary-color);
-  color: white;
+  background-color: #0052cc;
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background-color: #0052cc;
+  color: #ffffff;
 }
 
 ::-moz-selection {
@@ -631,7 +636,6 @@ a:active {
 }
 
 .dropdown-btn:focus-visible,
-.save-pdf-btn:focus-visible,
 .search-btn:focus-visible,
 .sidebar-toggle:focus-visible {
   outline: 2px solid var(--focus-ring);
@@ -706,22 +710,6 @@ a:active {
 .dropdown-item.active::after {
   content: " ✓";
   float: right;
-}
-
-.save-pdf-btn {
-  padding: var(--space-200) var(--space-300);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-200);
-  background-color: #f5f7fa;
-  color: var(--text-dark);
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.15s, transform 0.08s;
-}
-
-.save-pdf-btn:hover {
-  background-color: #eef4ff;
-  transform: translateY(-1px);
 }
 
 .search-btn {
@@ -1207,7 +1195,7 @@ body.sidebar-collapsed .sidebar-toggle svg {
 
 /* Gray background section after annotated image */
 .gray-background-section {
-  background-color: rgb(247, 248, 249);
+  /* background-color: rgb(247, 248, 249); */
   margin-left: -40px;
   margin-right: -40px;
   padding: 80px 40px 80px 40px;
@@ -2639,7 +2627,6 @@ pre code {
   }
 
   .dropdown-btn,
-  .save-pdf-btn,
   .tab-button {
     padding: 12px 14px;
     font-size: 15px;
@@ -2911,6 +2898,40 @@ pre code {
   filter: drop-shadow(0px -2px 2px rgba(9, 30, 66, 0.1));
 }
 
+/* Special positioning for tag 5 tooltip - position at top */
+.annotation-tag.tooltip-top .annotation-tooltip-popup {
+  top: calc(-100% - 24px);
+  left: 30%;
+  transform: translateX(-50%);
+}
+
+.annotation-tag.tooltip-top .annotation-tooltip-popup::before {
+  bottom: auto;
+  left: 70%;
+  top: 100%;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-top-color: #ffffff;
+  filter: drop-shadow(0px 2px 2px rgba(9, 30, 66, 0.1));
+}
+
+/* Special positioning for tooltip - position at bottom */
+.annotation-tag.tooltip-bottom .annotation-tooltip-popup {
+  top: calc(100% + 24px);
+  left: 30%;
+  transform: translateX(-50%);
+}
+
+.annotation-tag.tooltip-bottom .annotation-tooltip-popup::before {
+  top: auto;
+  left: 70%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-bottom-color: #ffffff;
+  filter: drop-shadow(0px -2px 2px rgba(9, 30, 66, 0.1));
+}
+
 .annotation-tooltip-popup .tooltip-content {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
     sans-serif;
@@ -3108,5 +3129,173 @@ pre code {
   }
   .info-note .info-text p {
     font-size: 13px;
+  }
+}
+
+/* Page Navigation */
+.page-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 3rem 0 2rem 0;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border-color);
+  gap: 2rem;
+}
+
+.page-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text-dark);
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(9, 30, 66, 0.12);
+  min-width: 200px;
+  flex: 1;
+  max-width: 320px;
+}
+
+.page-nav-link:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 2px 8px rgba(0, 82, 204, 0.15);
+  transform: translateY(-1px);
+  text-decoration: none;
+  color: var(--text-dark);
+}
+
+.page-nav-link.previous {
+  justify-content: flex-start;
+}
+
+.page-nav-link.next {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.page-nav-icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: var(--text-medium);
+  transition: color 0.2s ease;
+}
+
+.page-nav-link:hover .page-nav-icon {
+  color: var(--primary-color);
+}
+
+.page-nav-content {
+  flex: 1;
+}
+
+.page-nav-label {
+  font-size: 13px;
+  color: var(--text-medium);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.page-nav-title {
+  font-size: 15px;
+  color: var(--text-dark);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.page-nav-spacer {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .page-navigation {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .page-nav-link {
+    min-width: auto;
+    max-width: none;
+    width: 100%;
+  }
+
+  .page-nav-link.next {
+    text-align: left;
+    justify-content: flex-start;
+  }
+
+  .page-nav-link.next .page-nav-content {
+    order: 1;
+  }
+
+  .page-nav-link.next .page-nav-icon {
+    order: 2;
+  }
+}
+
+/* Back to Top Button */
+#backToTop {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--ds-background-brand-bold);
+  color: var(--ds-text-inverse);
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  box-shadow: var(--ds-shadow-raised);
+  z-index: 1000;
+  transform: translateY(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+#backToTop:hover {
+  background: var(--ds-background-brand-bold-hovered);
+  transform: translateY(0px);
+  box-shadow: var(--ds-shadow-overlay);
+}
+
+#backToTop:active {
+  background: var(--ds-background-brand-bold-pressed);
+  transform: translateY(2px);
+}
+
+#backToTop.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0px);
+}
+
+/* Arrow icon for back to top */
+#backToTop::before {
+  content: "↑";
+  font-size: 20px;
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  #backToTop {
+    bottom: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    font-size: 16px;
+  }
+
+  #backToTop::before {
+    font-size: 18px;
   }
 }
