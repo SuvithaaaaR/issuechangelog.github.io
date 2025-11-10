@@ -253,9 +253,9 @@ console.log('Ahoy, changelog!', histories.length);
             y: 40,
             lineFrom: { x: 25, y: 27 },
             lineTo: { x: 25, y: 40 },
-            tooltipTitle: "Field column",
+            tooltipTitle: "Author Column",
             tooltipDescription:
-              "Filter by which field was changed (status, assignee, etc.) or activity type.",
+              "Filter changes by the user who made them. Select one or more authors.",
           },
           {
             number: "5",
@@ -263,9 +263,9 @@ console.log('Ahoy, changelog!', histories.length);
             y: 40,
             lineFrom: { x: 42, y: 27 },
             lineTo: { x: 42, y: 40 },
-            tooltipTitle: "From Column",
+            tooltipTitle: "Author Column",
             tooltipDescription:
-              "Search for changes by the previous/old value before the change was made.",
+              "Filter changes by the user who made them. Select one or more authors.",
           },
           {
             number: "6",
@@ -569,7 +569,7 @@ console.log('Ahoy, changelog!', histories.length);
         src: "jira-admin-4.jpg",
         alt: "Authorized Projects Management - project list and controls",
       },
-      
+
       {
         type: "html",
         content: `<div style="margin-top: 5cm;"></div>`,
