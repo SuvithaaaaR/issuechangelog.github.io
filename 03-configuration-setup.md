@@ -1,405 +1,213 @@
-# Configuration and Setup
+# Configuration & Setup
 
-This guide covers all configuration options and setup procedures for the Issue Change Log app.
+This page documents site- and project-level configuration for the Issue ChangeLog app. It uses the screenshots and illustrations included in the repository to make setup and troubleshooting easier. The page also shows how the site styles (info-note, info-box, tick lists, etc.) are applied so you get a consistent look and feel.
 
-## Overview
+> Quick contract (what this section delivers)
 
-The Issue Change Log app uses a **two-tier access control system**:
-
-1. **Site-Level Authorization** (Managed by Jira Administrators)
-2. **Project-Level Enablement** (Managed by Project Administrators)
-
-Both levels must be configured for the app to function in a project.
+- Inputs: Jira site admin access, project admin access
+- Outputs: site-level authorized projects, per-project enablement
+- Error modes: missing admin permissions, storage write failure
 
 ---
 
-## Site-Level Configuration
+## At-a-glance flow
 
-### Who Can Configure?
-
-Users who are members of any of these groups:
-- `site-admins`
-- `jira-administrators`
-- `administrators`
-
-### Accessing Admin Settings
-
-**Method 1: Via Jira Settings**
-1. Go to **Jira Settings** (⚙️ icon in top right)
-2. Navigate to **Apps** → **Manage apps**
-3. Find **"Issue ChangeLog Settings"** in the sidebar
-4. Click to open the admin page
-
-**Method 2: Via App Navigation**
-1. Open any Jira issue
-2. Find the "Issue Changelog" panel
-3. If you're an admin, you'll see a **"Show Admin Panel"** button
-4. Click to toggle the admin interface
-
-### Authorizing Projects
-
-#### Adding Individual Projects
-
-1. In the admin panel, scroll to **"Add Projects"** section
-2. You'll see a list of all projects in your Jira instance
-3. Check the boxes next to projects you want to authorize
-4. Click **"Add Selected Projects"**
-5. Authorized projects will appear in the **"Currently Allowed Projects"** table
-
-#### Adding All Projects (Bulk Authorization)
-
-1. In the admin panel, find the **"Select All"** checkbox at the top of the project list
-2. Check **"Select All"** to select all available projects
-3. Click **"Add Selected Projects"**
-4. All projects will be added to the allowed list
-
-#### Project Information Displayed
-
-For each project, you'll see:
-- **Project Key** (e.g., "KC", "PROJ", "DEMO")
-- **Project Name** (full project name)
-- **Project Type** (software, business, service-desk)
-- **Date Added** (when the project was authorized)
-
-### Removing Project Access
-
-#### Remove Individual Projects
-
-1. In the **"Currently Allowed Projects"** table, find the project
-2. Click the **"Remove"** button next to the project
-3. Confirm the removal
-4. The project will immediately lose access to the app
-
-#### Bulk Removal
-
-1. Check the boxes next to multiple projects in the allowed projects table
-2. Click **"Remove Selected"** button
-3. Confirm the bulk removal
-4. All selected projects will lose access
-
-### Default Access Policy
-
-**Important:** By design, if no projects are authorized, **no projects have access** to the app. This ensures:
-- Explicit authorization required
-- No accidental data exposure
-- Clear security posture
+1. Site admin authorizes projects (site-level)
+2. Project admin enables the app per project (project-level)
+3. Users with Jira permissions view changelogs inside issue panels
 
 ---
 
-## Project-Level Configuration
+## Illustrations & screenshots
 
-### Who Can Configure?
+I included all images found in the repository so you have visual references while performing each step. Use them as quick navigation aids.
 
-Users with **Project Administrator** permissions for the specific project.
+### Admin console & site-level screenshots
 
-### Accessing Project Settings
+![Jira admin 1](./jira-admin-1.png "Jira admin - global settings")
+_Figure: Example Jira admin area where apps are managed._
 
-1. Navigate to your project
-2. Go to **Project Settings** (⚙️ icon in project sidebar)
-3. Scroll to **Apps** section
-4. Click **"Issue ChangeLog"**
+![Jira admin 2](./jira-admin-2.png "Jira admin - apps list")
+_Figure: "Manage apps" screen showing installed apps._
 
-### Enabling/Disabling the App
+![Jira admin 3](./jira-admin-3.png "Issue ChangeLog admin page")
+_Figure: The Issue ChangeLog admin page — use this to authorize projects._
 
-#### Enable the App
+![Jira admin 4](./jira-admin-4.jpg "Admin project selection")
+![Jira admin 5](./jira-admin-5.jpg "Bulk selection of projects")
 
-1. In project settings, you'll see the current status
-2. If disabled, toggle the switch to **"Enable Issue ChangeLog for this project"**
-3. The app will be immediately enabled for all project users
-4. Users will see change logs in issue panels
+### Project settings screenshots
 
-#### Disable the App
+![Project settings 1](./Project-settings-1.png "Project settings - apps")
+![Project settings 2](./project-settings-2.png "Project settings - enable/disable")
 
-1. In project settings, toggle the switch to **"Disable Issue ChangeLog for this project"**
-2. The app will be immediately disabled
-3. Users will see a disabled message in issue panels
-4. Site authorization remains intact (can be re-enabled later)
+### Issue panel & feature screenshots
 
-### Project Settings Information
+![Issue panel 1](./issue-panel-1.png "Issue panel - ChangeLog visible")
+![Issue panel 2](./issue-panel-2.png "Issue panel - ChangeLog collapsed")
 
-The project settings page displays:
-- **Project Name and Key**
-- **Site Authorization Status** (whether site admin has authorized the project)
-- **App Enablement Status** (current enabled/disabled state)
-- **Permission Status** (whether you have project admin rights)
+### Feature illustrations
 
-### When to Disable at Project Level
+![Feature 1](./feature-1.png "Feature: quick summary")
+![Feature 2](./feature-2.png "Feature: filters")
+![Feature 3](./feature-3.png "Feature: pagination")
+![Feature 4](./feature-4.png "Feature: performance settings")
 
-Consider disabling the app for specific projects when:
-- **Temporary Suspension**: Project is on hold or archived
-- **Performance Concerns**: Large projects experiencing performance issues
-- **Compliance Requirements**: Specific data access restrictions
-- **Testing/Staging**: Projects used for testing should be disabled
-- **Seasonal Projects**: Disable when project is inactive
+### Branding & homepage
+
+![Home image](./home img.png "Home/marketing banner")
+![Logo](./innoov.png "Innoov - project logo")
 
 ---
 
-## Access Control Flow
+## Site-level configuration (Jira administrators)
 
-### Access Validation Process
+Use the screenshots above (jira-admin-\*) when following these steps.
 
-When a user opens an issue:
+1. Go to Jira Settings → Apps → Manage apps.
+2. Open the Issue ChangeLog admin page (see `jira-admin-3.png`).
+3. In **Add Projects**, select projects you want to authorize.
 
-1. **Extract Project Key**: App identifies which project the issue belongs to
-2. **Check Site Authorization**: Verify project is in the allowed list (admin-configured)
-3. **Check Project Enablement**: Verify app is enabled for the project (project admin-configured)
-4. **Check User Permissions**: Verify user has permission to view the issue (Jira-level)
-5. **Grant or Deny Access**: Show changelog or display appropriate error message
+HTML-styled notice (uses existing site CSS `.info-note`):
 
-### Access Scenarios
+<div class="info-note">
+  <div class="info-icon">ℹ️</div>
+  <div class="info-text"><p>Only site administrators can authorize projects. If no projects are authorized, the app will not be available anywhere (this is by design).</p></div>
+</div>
 
-| Site Authorization | Project Enabled | Result |
-|-------------------|-----------------|--------|
-| ✅ Yes | ✅ Yes | ✅ **Full Access** - App works normally |
-| ✅ Yes | ❌ No | ❌ **Access Denied** - "App disabled for this project" |
-| ❌ No | ✅ Yes | ❌ **Access Denied** - "Project not authorized" |
-| ❌ No | ❌ No | ❌ **Access Denied** - "Project not authorized" |
+#### Bulk operations
+
+The admin screen supports bulk add/remove (see `jira-admin-4.jpg`, `jira-admin-5.jpg`). Use the "Select all" checkbox to authorize every project in one action.
 
 ---
 
-## Storage Configuration
+## Project-level configuration (project administrators)
 
-### What Data is Stored?
+Use `Project-settings-1.png` and `project-settings-2.png` as references.
 
-The app stores minimal configuration data in Forge app storage:
+1. Navigate to Project Settings → Apps → Issue ChangeLog.
+2. Toggle the enable/disable switch.
 
-#### Site-Level Storage
+If the project is enabled but not authorized by the site admin, users will see a clear message. The app checks both site authorization and project enablement before showing changelogs.
+
+<div class="info-box">
+  <div class="info-icon">🔒</div>
+  <div class="info-content"><h3>Note</h3><p>Enabling at project level does not override site-level authorization. Both must be true for users to see change logs.</p></div>
+</div>
+
+---
+
+## UX notes: Issue panel behavior
+
+- See `issue-panel-1.png` / `issue-panel-2.png` for how change logs appear inside an issue.
+- When disabled or unauthorized, the panel displays a friendly message instead of data.
+
+---
+
+## Storage & configuration shape
+
+The app stores minimal JSON objects in Forge storage. Example shapes (already present in the codebase):
 
 ```javascript
+// site-level
 {
-  "allowedProjects": ["KC", "PROJ", "DEMO"],
-  "allowedProjectsData": {
-    "KC": {
-      "key": "KC",
-      "name": "Kanban Central",
-      "id": "10001",
-      "dateAdded": "2024-01-15T10:30:00.000Z"
-    }
-  }
+  "allowedProjects": ["KC","PROJ"],
+  "allowedProjectsData": { /* per-project metadata */ }
+}
+
+// project-level
+{
+  "project_KC_settings": { "enabled": true, "lastUpdated": "..." }
 }
 ```
 
-#### Project-Level Storage
+---
 
-```javascript
-{
-  "project_KC_settings": {
-    "enabled": true,
-    "lastUpdated": "2024-01-20T14:45:00.000Z"
-  }
-}
+## Performance tuning (what to change)
+
+- Pagination default: 20 items per page. Use shorter pages for very large projects.
+- Time filters: choose a shorter default range for high-activity projects.
+- Selective authorization: only authorize projects that need this feature.
+
+Use `feature-1.png`–`feature-4.png` for UI hints on filter/pagination controls.
+
+---
+
+## Troubleshooting common issues (quick fixes)
+
+1. Projects not appearing: check `read:jira-work` permission and project visibility.
+2. Can't add projects: ensure you're in a site admin group.
+3. Users see access denied: confirm both site authorization and project enablement.
+
+For persistent storage errors, check the Forge app status in Apps → Manage apps.
+
+---
+
+## Style analysis — classes available and how to use them
+
+I scanned `styles.css` and found the CSS utilities we should reuse to keep a consistent UI:
+
+- `.info-note` — large, prominent informational callout (used above for admin notes). Use for site-level important notices.
+- `.info-box` — compact info box with a colored left border; good for short warnings/tips.
+- `.info-message-box` / `.info-message-content` — for center-aligned, wider callouts.
+- `.benefit-card`, `.benefit-card-highlights` — styled cards and highlighted items; use for checklists or recommended settings.
+- `.tab-item-benefits` — creates a tick-style bullet list via CSS ::before (uses a blue ✓). Good for 'what to check' lists.
+- `.hero-image-card` — wraps images with consistent radius and shadow for large illustrative images.
+
+Example: use a tick list with the existing CSS by writing:
+
+```html
+<ul class="tab-item-benefits">
+  <li>Ensure the project is authorized at site-level</li>
+  <li>Enable the app under Project Settings</li>
+  <li>Verify user Jira permissions</li>
+</ul>
 ```
 
-### Storage Limits
-
-- Forge app storage has no practical limit for this app's use case
-- Data is automatically backed up by Atlassian
-- Storage is isolated per Forge app installation
-- No external databases or services used
+This will render with the styled checkmarks provided by the stylesheet (no extra icons required).
 
 ---
 
-## Performance Configuration
+## Complete configuration checklist (use the tick-list style)
 
-### Optimization Settings
-
-The app is optimized by default, but you can manage performance by:
-
-#### 1. **Pagination**
-- Change logs are paginated (20 items per page by default)
-- Reduces initial load time
-- Improves browser performance for large histories
-
-#### 2. **Time Filtering**
-- Use shorter time periods for faster loading
-- Default filter: "All time" (can be changed by users)
-- Filters: 24h, 7d, 30d, 6m, 1y, all
-
-#### 3. **Selective Project Authorization**
-- Only authorize projects that need the app
-- Reduces overall system load
-- Improves administrative clarity
-
-### Performance Best Practices
-
-- **Large Projects** (>10,000 issues): Consider using shorter default time filters
-- **High Activity Projects**: Monitor load times and adjust pagination if needed
-- **Archive Old Projects**: Disable the app for archived or completed projects
+<ul class="tab-item-benefits">
+  <li>Install the app on the Jira instance</li>
+  <li>Authorize the required projects (site admin)</li>
+  <li>Enable the app in project settings (project admin)</li>
+  <li>Confirm users can view issues and changelogs</li>
+  <li>Adjust pagination and time filters for large projects</li>
+</ul>
 
 ---
 
-## Permission Configuration
+## All screenshots used (for quick copy-paste)
 
-### Required Jira Permissions
-
-The app requires these Forge permissions:
-
-```yaml
-permissions:
-  scopes:
-    - read:jira-work       # Read issues, projects, and changelogs
-    - read:jira-user       # Verify user permissions
-    - storage:app          # Store project access configurations
-```
-
-### User-Level Permissions
-
-Users must have Jira permissions to:
-- **Browse Projects**: View projects and their issues
-- **View Issues**: Access issue details
-- **View Comments**: See issue comments (if included in changelog)
-
-The app respects all Jira permission schemes and cannot bypass them.
+- `./jira-admin-1.png`
+- `./jira-admin-2.png`
+- `./jira-admin-3.png`
+- `./jira-admin-4.jpg`
+- `./jira-admin-5.jpg`
+- `./Project-settings-1.png`
+- `./project-settings-2.png`
+- `./issue-panel-1.png`
+- `./issue-panel-2.png`
+- `./feature-1.png`
+- `./feature-2.png`
+- `./feature-3.png`
+- `./feature-4.png`
+- `./home img.png`
+- `./innoov.png`
 
 ---
 
-## Advanced Configuration
+## Next steps I will take
 
-### Custom Deployment Settings
+1. Wire any missing images into the site pages if you'd like them embedded elsewhere.
+2. Optionally create a short GIF demonstrating enable/disable flows (small add-on).
 
-For organizations with specific requirements:
-
-#### Environment Variables
-
-```yaml
-# manifest.yml configuration
-app:
-  runtime:
-    name: nodejs22.x
-  id: your-app-id
-```
-
-#### Resource Configuration
-
-```yaml
-resources:
-  - key: main
-    path: static/hello-world/build
-    tunnel:
-      port: 3002
-```
-
-### Multi-Site Deployment
-
-For organizations with multiple Jira instances:
-
-1. Install the app on each site separately
-2. Configure project access independently for each site
-3. Each site maintains its own access configuration
-4. No data is shared between sites
+If you'd like, I can also preview this page locally (run a simple local static server) and confirm the info-note and tick lists render correctly.
 
 ---
-
-## Security Configuration
-
-### Access Control Best Practices
-
-1. **Principle of Least Privilege**
-   - Only authorize projects that require change log tracking
-   - Regularly review and remove unnecessary project access
-
-2. **Regular Audits**
-   - Monthly review of authorized projects
-   - Verify project admins are managing enablement appropriately
-   - Check for unused or archived projects
-
-3. **Role Separation**
-   - Site admins manage which projects *can* use the app
-   - Project admins manage whether the app *is* used
-   - Clear separation of responsibilities
-
-4. **Access Logging**
-   - Monitor which projects are using the app
-   - Review access patterns for anomalies
-   - Use Jira audit logs for compliance
-
-### Compliance Configuration
-
-For organizations with compliance requirements:
-
-- **Data Residency**: All data stays within Jira/Forge infrastructure
-- **Audit Trails**: All admin actions are logged in Jira audit logs
-- **Access Controls**: Two-tier authorization system provides granular control
-- **No External Access**: No data leaves the Atlassian ecosystem
-
----
-
-## Troubleshooting Configuration Issues
-
-### Issue: Projects not appearing in admin panel
-
-**Possible Causes:**
-- Permission issues with Jira API
-- Project visibility restrictions
-
-**Solutions:**
-1. Verify app has `read:jira-work` permission
-2. Check that you can see the projects in Jira normally
-3. Try refreshing the admin page
-4. Check browser console for API errors
-
-### Issue: Unable to add projects
-
-**Possible Causes:**
-- Not a site administrator
-- Storage write errors
-
-**Solutions:**
-1. Verify you're in an admin group (`site-admins`, `jira-administrators`, or `administrators`)
-2. Check Forge app status in **Apps** → **Manage apps**
-3. Try logging out and back in
-4. Contact Atlassian support if storage errors persist
-
-### Issue: Project enabled but users see "access denied"
-
-**Possible Causes:**
-- Site authorization not granted
-- Project key mismatch
-
-**Solutions:**
-1. Verify project is in the site admin's allowed list
-2. Check project key matches exactly (case-sensitive)
-3. Verify user has Jira permissions to view issues
-4. Try re-adding the project in admin settings
-
-### Issue: Admin panel not showing
-
-**Possible Causes:**
-- Not a site administrator
-- Group membership not synced
-
-**Solutions:**
-1. Verify group membership in **Jira Settings** → **User management**
-2. Log out and log back in to refresh permissions
-3. Clear browser cache
-4. Contact site admin to verify group membership
-
----
-
-## Configuration Checklist
-
-### Initial Setup
-- [ ] Install app on Jira instance
-- [ ] Verify admin access to settings
-- [ ] Authorize necessary projects (site-level)
-- [ ] Configure project enablement (project-level)
-- [ ] Test access with regular users
-- [ ] Document project access decisions
-
-### Ongoing Maintenance
-- [ ] Monthly review of authorized projects
-- [ ] Remove access for archived projects
-- [ ] Monitor performance and user feedback
-- [ ] Update documentation for new projects
-- [ ] Train new admins on configuration procedures
-
----
-
-## Next Steps
-
-- **User Training**: See [User Guide](./04-user-guide.md)
-- **Troubleshooting**: See [FAQ / Troubleshooting](./06-faq-troubleshooting.md)
-- **Feature Details**: See [Features and Capabilities](./02-features-capabilities.md)
 
 ## Support
 

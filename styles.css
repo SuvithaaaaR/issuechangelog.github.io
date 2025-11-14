@@ -1033,14 +1033,15 @@ body.sidebar-collapsed .toc {
 
 .nav-item {
   display: block;
-  padding: 6px 12px;
+  padding: 8px 12px 8px 20px;
   font-size: 14px;
   color: var(--text-medium);
   text-decoration: none;
   border-radius: 4px;
   transition: all 0.2s;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
   position: relative;
+  cursor: pointer;
 }
 
 .nav-item:focus-visible {
@@ -1051,7 +1052,7 @@ body.sidebar-collapsed .toc {
 .nav-item::before {
   content: "";
   position: absolute;
-  left: 0;
+  left: 8px;
   top: 50%;
   transform: translateY(-50%);
   width: 3px;
@@ -1062,24 +1063,25 @@ body.sidebar-collapsed .toc {
 }
 
 .nav-item:hover::before {
-  height: 70%;
+  height: 60%;
 }
 
 .nav-item:hover {
-  background-color: rgba(9, 30, 66, 0.08);
+  background-color: rgba(9, 30, 66, 0.04);
   color: var(--text-dark);
+  padding-left: 24px;
 }
 
 .nav-item.active {
-  background-color: var(--primary-color);
-  color: var(--bg-white);
+  background-color: rgba(0, 82, 204, 0.08);
+  color: var(--primary-color);
   font-weight: 500;
-  box-shadow: 0 2px 4px rgba(0, 82, 204, 0.2);
+  padding-left: 24px;
 }
 
 .nav-item.active::before {
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.3);
+  height: 60%;
+  background-color: var(--primary-color);
 }
 
 /* Content */
@@ -1996,6 +1998,142 @@ body.sidebar-collapsed .sidebar-toggle svg {
 
 .text-content strong {
   font-weight: 600;
+}
+
+/* Troubleshooting card/grid (single-column stacked rows like screenshot) */
+.troubleshooting-card {
+  width: 100%;
+  max-width: 1040px;
+  background: #ffffff;
+  border: 1px solid #dfe1e6;
+  border-radius: 8px;
+  box-shadow: 0 1px 1px rgba(9, 30, 66, 0.08);
+  overflow: hidden;
+  margin: 32px auto;
+}
+
+.troubleshooting-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+
+.troubleshooting-item {
+  border-bottom: 1px solid #ebecf0;
+  padding: 24px 40px;
+  transition: background-color 0.15s ease;
+}
+
+.troubleshooting-item:hover {
+  background-color: #fafbfc;
+}
+
+.troubleshooting-item:last-child {
+  border-bottom: none;
+}
+
+.troubleshooting-item button,
+.troubleshooting-item .troubleshooting-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: #f4f5f7;
+  border: 1px solid #dfe1e6;
+  border-radius: 4px;
+  color: #172b4d;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+.troubleshooting-item button:hover,
+.troubleshooting-item .troubleshooting-link:hover {
+  background: #ebecf0;
+  border-color: #c1c7d0;
+  transform: translateY(-1px);
+  box-shadow: 0 1px 2px rgba(9, 30, 66, 0.12);
+}
+
+.troubleshooting-item button:active,
+.troubleshooting-item .troubleshooting-link:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.troubleshooting-link {
+  width: auto;
+  text-align: left;
+}
+
+.troubleshooting-chevron {
+  color: #6b778c;
+  font-size: 16px;
+  line-height: 1;
+  margin-left: 4px;
+  font-weight: 400;
+}
+
+@media (max-width: 880px) {
+  .troubleshooting-card {
+    border-radius: 6px;
+    margin: 24px 16px;
+  }
+  .troubleshooting-item {
+    padding: 18px 24px;
+  }
+  .troubleshooting-item button,
+  .troubleshooting-item .troubleshooting-link {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+}
+
+/* Accordion toggle and panel styles */
+.troubleshooting-toggle {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 18px 28px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  color: var(--text-dark, #172b4d);
+}
+
+.troubleshooting-toggle:focus {
+  outline: 3px solid var(--focus-ring, #4c9aff);
+  outline-offset: 2px;
+}
+
+.troubleshooting-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.32s ease, padding 0.24s ease;
+  padding: 0 28px;
+}
+
+.troubleshooting-panel.open {
+  padding: 12px 28px 20px 28px;
+  max-height: 1200px; /* large enough for content */
+}
+
+.troubleshooting-panel p,
+.troubleshooting-panel ul {
+  margin: 0;
+  color: var(--text-medium, #39424a);
+}
+
+.troubleshooting-panel .content-list li {
+  padding: 6px 0;
 }
 
 /* Content Headings */

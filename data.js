@@ -26,8 +26,41 @@ const navigationData = {
       items: [],
     },
     {
+      id: "troubleshooting",
+      title: "Troubleshooting",
+      expanded: false,
+      items: [
+        { id: "troubleshooting", title: "Overview", active: false },
+        {
+          id: "troubleshooting-document-creation",
+          title: "App Not Appearing in Issue Panel",
+          active: false,
+        },
+        {
+          id: "troubleshooting-saving-version",
+          title: "Change Log Not Loading or Empty",
+          active: false,
+        },
+        {
+          id: "troubleshooting-page-group",
+          title: "Performance Issues or Slow Loading",
+          active: false,
+        },
+        {
+          id: "troubleshooting-content-display",
+          title: "Changes Not Appearing or Missing History",
+          active: false,
+        },
+        {
+          id: "troubleshooting-license-data",
+          title: "Installation or Update Issues",
+          active: false,
+        },
+      ],
+    },
+    {
       id: "configuration",
-      title: "Configuration and Setup",
+      title: "User Guide",
       expanded: false,
       items: [],
     },
@@ -166,6 +199,458 @@ console.log('Ahoy, changelog!', histories.length);
       next: { title: "Get Started", target: "app-overview" },
     },
   },
+
+  "troubleshooting-document-creation": {
+    breadcrumbs: [
+      { title: "Issue Change Log", link: "#" },
+      { title: "Troubleshooting", link: "#" },
+      { title: "App Not Appearing in Issue Panel", link: "#" },
+    ],
+    title: "App Not Appearing in Issue Panel",
+    description:
+      "The Issue Change Log panel doesn't show up when viewing Jira issues.",
+    sections: [
+      { type: "heading", level: 2, content: "Common Causes" },
+      {
+        type: "list",
+        items: [
+          "Project not authorized by site administrator",
+          "App disabled at project level by project admin",
+          "User lacks Jira permissions to view issues",
+          "App installation incomplete or corrupted",
+        ],
+      },
+      { type: "heading", level: 2, content: "Step-by-Step Diagnosis" },
+      {
+        type: "text",
+        content: "<strong>Step 1: Verify Site-Level Authorization</strong>",
+      },
+      {
+        type: "text",
+        content:
+          "Site administrators must authorize projects before the app can be used. Go to <strong>Jira Settings → Apps → Manage apps → Issue ChangeLog Settings</strong> and confirm your project is in the authorized list.",
+      },
+      {
+        type: "image",
+        src: "jira-admin-3.png",
+        alt: "Site admin authorization screen",
+      },
+      {
+        type: "text",
+        content: "<strong>Step 2: Check Project-Level Enablement</strong>",
+      },
+      {
+        type: "text",
+        content:
+          "Project administrators must enable the app in <strong>Project Settings → Apps → Issue ChangeLog</strong>. Verify the toggle is set to 'Enabled'.",
+      },
+      {
+        type: "image",
+        src: "Project-settings-1.png",
+        alt: "Project settings - app enabled",
+      },
+      {
+        type: "text",
+        content: "<strong>Step 3: Verify User Permissions</strong>",
+      },
+      {
+        type: "text",
+        content:
+          "Ensure your Jira account has permission to browse the project and view issues. Contact your Jira administrator if you see permission denied errors.",
+      },
+      { type: "heading", level: 2, content: "Quick Fixes" },
+      {
+        type: "list",
+        items: [
+          "Hard refresh the browser (Ctrl+F5 or Cmd+Shift+R)",
+          "Clear browser cache and cookies for your Jira instance",
+          "Try opening the issue in a different browser or incognito mode",
+          "Log out and log back in to refresh your session",
+        ],
+      },
+      {
+        type: "text",
+        content:
+          "If the panel still doesn't appear after verifying all authorization and permissions, check the browser console (F12) for JavaScript errors and contact support with the error details.",
+      },
+    ],
+    tableOfContents: [
+      { title: "Common Causes", anchor: "#common-causes" },
+      { title: "Step-by-Step Diagnosis", anchor: "#diagnosis" },
+      { title: "Quick Fixes", anchor: "#quick-fixes" },
+    ],
+    navigation: {
+      previous: { title: "Troubleshooting", target: "troubleshooting" },
+      next: null,
+    },
+  },
+
+  "troubleshooting-saving-version": {
+    breadcrumbs: [
+      { title: "Issue Change Log", link: "#" },
+      { title: "Troubleshooting", link: "#" },
+      { title: "Change Log Not Loading or Empty", link: "#" },
+    ],
+    title: "Change Log Not Loading or Empty",
+    description:
+      "The Issue Change Log panel appears but shows no data or fails to load history.",
+    sections: [
+      { type: "heading", level: 2, content: "Common Causes" },
+      {
+        type: "list",
+        items: [
+          "Issue has no change history yet (newly created)",
+          "Network connectivity issues or Jira API timeouts",
+          "Jira permissions preventing access to issue history",
+          "App storage errors or corrupted cached data",
+        ],
+      },
+      {
+        type: "image",
+        src: "issue-panel-2.png",
+        alt: "Empty change log state",
+      },
+      { type: "heading", level: 2, content: "Diagnosis Steps" },
+      {
+        type: "text",
+        content: "<strong>Check Issue Age</strong>",
+      },
+      {
+        type: "text",
+        content:
+          "Newly created issues have no history. Make a change to the issue (update status, assignee, or add a comment) and refresh to verify the app is working.",
+      },
+      {
+        type: "text",
+        content: "<strong>Verify API Access</strong>",
+      },
+      {
+        type: "text",
+        content:
+          "Open browser DevTools (F12) → Network tab and look for failed API requests to <code>/rest/api/3/issue/{issueKey}/changelog</code>. If you see 403 errors, you lack permission to view issue history.",
+      },
+      {
+        type: "text",
+        content: "<strong>Check Filters</strong>",
+      },
+      {
+        type: "text",
+        content:
+          "If the panel loads but appears empty, verify that time filters or field filters aren't excluding all changes. Reset filters to 'All time' and 'All fields' to see full history.",
+      },
+      {
+        type: "image",
+        src: "feature-2.png",
+        alt: "Filter controls in change log panel",
+      },
+      { type: "heading", level: 2, content: "Quick Fixes" },
+      {
+        type: "list",
+        items: [
+          "Refresh the issue page (F5) to reload change history",
+          "Clear browser cache and reload (Ctrl+F5)",
+          "Check network connectivity and VPN if using remote access",
+          "Try viewing a different issue to isolate the problem",
+          "Contact your Jira admin to verify you have 'View Issue' permission",
+        ],
+      },
+      {
+        type: "text",
+        content:
+          "If the change log consistently fails to load across multiple issues, capture the Network tab errors from DevTools and contact support with the issue key and error details.",
+      },
+    ],
+    tableOfContents: [
+      { title: "Common Causes", anchor: "#causes" },
+      { title: "Diagnosis Steps", anchor: "#diagnosis" },
+      { title: "Quick Fixes", anchor: "#fixes" },
+    ],
+    navigation: {
+      previous: { title: "Troubleshooting", target: "troubleshooting" },
+      next: null,
+    },
+  },
+
+  "troubleshooting-page-group": {
+    breadcrumbs: [
+      { title: "Issue Change Log", link: "#" },
+      { title: "Troubleshooting", link: "#" },
+      { title: "Performance Issues or Slow Loading", link: "#" },
+    ],
+    title: "Performance Issues or Slow Loading",
+    description:
+      "Change log loads slowly or causes browser performance issues in large projects.",
+    sections: [
+      { type: "heading", level: 2, content: "Common Scenarios" },
+      {
+        type: "list",
+        items: [
+          "Issues with hundreds or thousands of changes take long to load",
+          "Browser becomes unresponsive when scrolling through history",
+          "Pagination controls don't respond quickly",
+          "High memory usage in browser when panel is open",
+        ],
+      },
+      {
+        type: "image",
+        src: "feature-3.png",
+        alt: "Pagination controls",
+      },
+      { type: "heading", level: 2, content: "Optimization Steps" },
+      {
+        type: "text",
+        content: "<strong>Use Time Filters</strong>",
+      },
+      {
+        type: "text",
+        content:
+          "Instead of loading 'All time', filter to recent periods (Last 7 days, Last 30 days). This dramatically reduces the data loaded and improves performance.",
+      },
+      {
+        type: "text",
+        content: "<strong>Adjust Pagination</strong>",
+      },
+      {
+        type: "text",
+        content:
+          "The app loads 20 changes per page by default. For very active issues, this provides good balance. Use Next/Previous buttons to navigate instead of loading all history at once.",
+      },
+      {
+        type: "text",
+        content: "<strong>Filter by Field</strong>",
+      },
+      {
+        type: "text",
+        content:
+          "If you only need to track specific fields (e.g., Status, Assignee), use field filters to reduce data volume and improve rendering speed.",
+      },
+      {
+        type: "image",
+        src: "feature-4.png",
+        alt: "Field filter options",
+      },
+      { type: "heading", level: 2, content: "Browser Optimizations" },
+      {
+        type: "list",
+        items: [
+          "Close unnecessary browser tabs to free up memory",
+          "Disable browser extensions that inject scripts into Jira pages",
+          "Use a modern browser (Chrome, Firefox, Edge) with latest updates",
+          "Clear browser cache regularly if working with very large issues",
+        ],
+      },
+      {
+        type: "text",
+        content:
+          "For issues with extreme change volumes (>10,000 changes), consider exporting to CSV instead of viewing in-panel for better performance.",
+      },
+    ],
+    tableOfContents: [
+      { title: "Common Scenarios", anchor: "#scenarios" },
+      { title: "Optimization Steps", anchor: "#optimization" },
+      { title: "Browser Optimizations", anchor: "#browser" },
+    ],
+    navigation: {
+      previous: { title: "Troubleshooting", target: "troubleshooting" },
+      next: null,
+    },
+  },
+
+  "troubleshooting-content-display": {
+    breadcrumbs: [
+      { title: "Issue Change Log", link: "#" },
+      { title: "Troubleshooting", link: "#" },
+      { title: "Changes Not Appearing or Missing History", link: "#" },
+    ],
+    title: "Changes Not Appearing or Missing History",
+    description:
+      "Some issue changes are missing from the change log or history appears incomplete.",
+    sections: [
+      { type: "heading", level: 2, content: "Why Changes Might Be Missing" },
+      {
+        type: "list",
+        items: [
+          "Changes were made before the app was installed on the project",
+          "Jira audit log retention policies deleted old history",
+          "User lacks permission to view certain fields (e.g., security level changes)",
+          "Issue was imported from another system with incomplete history",
+          "Changes were made via automation/webhooks that don't log to changelog",
+        ],
+      },
+      { type: "heading", level: 2, content: "Verification Steps" },
+      {
+        type: "text",
+        content: "<strong>Check Jira's Native History</strong>",
+      },
+      {
+        type: "text",
+        content:
+          "Go to the issue's 'History' tab in Jira. If changes don't appear there, they're not in Jira's changelog API (the app can't show what Jira doesn't record).",
+      },
+      {
+        type: "text",
+        content: "<strong>Verify Permissions</strong>",
+      },
+      {
+        type: "text",
+        content:
+          "Some fields are permission-restricted (e.g., security level, private comments). If you lack permission to view a field, changes to that field won't appear in your change log view.",
+      },
+      {
+        type: "text",
+        content: "<strong>Check Time Filters</strong>",
+      },
+      {
+        type: "text",
+        content:
+          "Ensure you're viewing 'All time' and not a filtered date range that excludes the expected changes.",
+      },
+      {
+        type: "image",
+        src: "issue-panel-1.png",
+        alt: "Change log panel showing history",
+      },
+      { type: "heading", level: 2, content: "What You Can Do" },
+      {
+        type: "list",
+        items: [
+          "Reset all filters to 'All time' and 'All fields' to see maximum history",
+          "Ask your Jira admin to verify you have permission to view all relevant fields",
+          "Check Jira's Audit Log (if you're admin) for system-level changes",
+          "For imported issues, understand that pre-import history may not exist in Jira",
+        ],
+      },
+      {
+        type: "text",
+        content:
+          "Remember: The Issue Change Log app displays data from Jira's native changelog API. If Jira doesn't record a change (due to automation rules, API calls without changelog flag, or permissions), the app cannot show it.",
+      },
+    ],
+    tableOfContents: [
+      { title: "Why Changes Might Be Missing", anchor: "#why" },
+      { title: "Verification Steps", anchor: "#verification" },
+      { title: "What You Can Do", anchor: "#actions" },
+    ],
+    navigation: {
+      previous: { title: "Troubleshooting", target: "troubleshooting" },
+      next: null,
+    },
+  },
+
+  "troubleshooting-license-data": {
+    breadcrumbs: [
+      { title: "Issue Change Log", link: "#" },
+      { title: "Troubleshooting", link: "#" },
+      { title: "Installation or Update Issues", link: "#" },
+    ],
+    title: "Installation or Update Issues",
+    description:
+      "Problems installing the app, updating to a new version, or app appearing broken after updates.",
+    sections: [
+      { type: "heading", level: 2, content: "Installation Problems" },
+      {
+        type: "list",
+        items: [
+          "App doesn't appear in 'Manage apps' after installation from Marketplace",
+          "'Installation failed' error when trying to install",
+          "App installs but doesn't show in any projects",
+          "License validation fails even though purchase completed",
+        ],
+      },
+      {
+        type: "image",
+        src: "jira-admin-2.png",
+        alt: "Manage apps screen",
+      },
+      { type: "heading", level: 2, content: "Installation Troubleshooting" },
+      {
+        type: "text",
+        content: "<strong>Verify Site Admin Rights</strong>",
+      },
+      {
+        type: "text",
+        content:
+          "Only Jira site administrators can install Marketplace apps. Confirm you're in the 'site-admins' or 'jira-administrators' group.",
+      },
+      {
+        type: "text",
+        content: "<strong>Check Atlassian Account Link</strong>",
+      },
+      {
+        type: "text",
+        content:
+          "Your Jira instance must be properly linked to your Atlassian account. Go to <strong>Jira Settings → Atlassian Marketplace → Manage account</strong> to verify.",
+      },
+      {
+        type: "text",
+        content: "<strong>License Activation</strong>",
+      },
+      {
+        type: "text",
+        content:
+          "After purchase, the license may take a few minutes to activate. Wait 5-10 minutes and refresh the Manage apps page.",
+      },
+      { type: "heading", level: 2, content: "Update Problems" },
+      {
+        type: "list",
+        items: [
+          "App stops working after Jira system update",
+          "New app version shows errors or missing features",
+          "Update notification appears but update fails",
+        ],
+      },
+      {
+        type: "image",
+        src: "jira-admin-5.jpg",
+        alt: "App version and update screen",
+      },
+      { type: "heading", level: 2, content: "Update Troubleshooting" },
+      {
+        type: "text",
+        content: "<strong>Manual Update</strong>",
+      },
+      {
+        type: "text",
+        content:
+          "Go to <strong>Jira Settings → Apps → Manage apps</strong>, find Issue ChangeLog, and click 'Update' if available. If update fails, try uninstalling and reinstalling (your configuration is preserved).",
+      },
+      {
+        type: "text",
+        content: "<strong>Clear App Cache</strong>",
+      },
+      {
+        type: "text",
+        content:
+          "After updates, clear browser cache (Ctrl+F5) and refresh Jira. Some UI updates require cache clearing to display properly.",
+      },
+      { type: "heading", level: 2, content: "When to Contact Support" },
+      {
+        type: "list",
+        items: [
+          "Installation fails repeatedly with error codes",
+          "License shows as invalid despite successful purchase",
+          "App breaks after Jira platform update (provide Jira version)",
+          "Update fails with 'compatibility issue' message",
+        ],
+      },
+      {
+        type: "text",
+        content:
+          "When contacting support, include: Jira version, app version (if installed), error messages (screenshot or text), and your Jira instance URL (cloud vs. data center).",
+      },
+    ],
+    tableOfContents: [
+      { title: "Installation Problems", anchor: "#installation" },
+      { title: "Installation Troubleshooting", anchor: "#install-fix" },
+      { title: "Update Problems", anchor: "#update" },
+      { title: "Update Troubleshooting", anchor: "#update-fix" },
+      { title: "When to Contact Support", anchor: "#support" },
+    ],
+    navigation: {
+      previous: { title: "Troubleshooting", target: "troubleshooting" },
+      next: null,
+    },
+  },
   "app-overview": {
     breadcrumbs: [
       { title: "Issue Change Log", link: "#" },
@@ -263,9 +748,9 @@ console.log('Ahoy, changelog!', histories.length);
             y: 40,
             lineFrom: { x: 42, y: 27 },
             lineTo: { x: 42, y: 40 },
-            tooltipTitle: "Author Column",
+            tooltipTitle: "From column",
             tooltipDescription:
-              "Filter changes by the user who made them. Select one or more authors.",
+              "Filter changes based on the previous value or status before the update.",
           },
           {
             number: "6",
@@ -1130,69 +1615,262 @@ console.log('Ahoy, changelog!', histories.length);
     ],
     navigation: {
       previous: { title: "Features and Capabilities", target: "features" },
-      next: { title: "Configuration and Setup", target: "configuration" },
+      next: { title: "Troubleshooting", target: "troubleshooting" },
     },
   },
 
   configuration: {
     breadcrumbs: [
       { title: "Issue Change Log", link: "#" },
-      { title: "Configuration", link: "#" },
+      { title: "User Guide", link: "#" },
     ],
-    title: "Configuration and Setup",
+    title: "User Guide",
     description:
-      "How to configure site-level permissions, project enablement and optional feature flags for the app.",
+      "Site- and project-level configuration for Issue ChangeLog, plus performance tuning and troubleshooting guidance.",
     sections: [
-      { type: "image", src: "Admin-2.png", alt: "Admin settings screenshot" },
       {
-        type: "image",
-        src: "jira admin-1.png",
-        alt: "Jira admin panel screenshot",
+        type: "heading",
+        level: 2,
+        content: "Overview & Flow",
       },
-      {
-        type: "image",
-        src: "pro admin-1.png",
-        alt: "Project admin settings screenshot",
-      },
-      { type: "heading", level: 2, content: "Site-Level Authorization" },
       {
         type: "text",
         content:
-          "Site admins approve the app and manage global settings. Only after site approval can project admins enable the app for individual projects. This provides a two-tier access model for added security.",
+          "Issue ChangeLog uses a two-tier access model: site-level authorization (Jira admins) and project-level enablement (project admins). Both must be true before users can view change logs in issue panels.",
       },
-      { type: "heading", level: 2, content: "Project Enablement" },
+      {
+        type: "image",
+        src: "jira-admin-1.png",
+        alt: "Jira admin - manage apps and authorize projects",
+        caption:
+          "Site admin console — authorize projects that can use Issue ChangeLog.",
+      },
+      {
+        type: "image",
+        src: "jira-admin-2.png",
+        alt: "Issue ChangeLog settings - authorize projects screenshot",
+        caption:
+          "Manage projects from Issue ChangeLog Settings (search, select, bulk-add).",
+      },
+      {
+        type: "html",
+        content: `
+          <div class="info-note">
+            <div class="info-icon" aria-hidden="true">ℹ️</div>
+            <div class="info-text"><p><strong>Important:</strong> Only Jira site administrators can authorize projects. If no projects are authorized, the app will not be available in any project (this is intentional for safety).</p></div>
+          </div>
+        `,
+      },
+
+      { type: "heading", level: 2, content: "Site-level: Authorize Projects" },
       {
         type: "text",
         content:
-          "Enable the app per project via Project Settings → Apps. Once enabled, the Issue Change Log panel will appear on the issue view for that project.",
+          "From Jira Settings → Apps → Manage apps → Issue ChangeLog Settings, search and select the projects to authorize. Use 'Select All' for bulk authorization when appropriate.",
       },
-      { type: "heading", level: 2, content: "Feature Flags and Tuning" },
+      {
+        type: "image",
+        src: "jira-admin-3.png",
+        alt: "Add Project Access — search and select projects",
+      },
+      {
+        type: "image",
+        src: "jira-admin-4.jpg",
+        alt: "Bulk authorize projects",
+      },
+      {
+        type: "image",
+        src: "jira-admin-5.jpg",
+        alt: "Confirmation after adding projects",
+      },
+
+      {
+        type: "heading",
+        level: 2,
+        content: "Project-level: Enable or Disable the App",
+      },
+      {
+        type: "text",
+        content:
+          "Project administrators can enable Issue ChangeLog per project in Project Settings → Apps. Toggling the switch makes the panel available to project users if the project is also site-authorized.",
+      },
+      {
+        type: "image",
+        src: "Project-settings-1.png",
+        alt: "Project settings - enabled view",
+        caption: "Project settings when authorized and enabled.",
+      },
+      {
+        type: "image",
+        src: "project-settings-2.png",
+        alt: "Project settings - not authorized view",
+        caption:
+          "Project settings when the project is not authorized by site admin.",
+      },
+      {
+        type: "html",
+        content: `
+          <div class="info-box">
+            <div class="info-icon" aria-hidden="true">🔒</div>
+            <div class="info-content"><h3>Note</h3><p>Enabling at project level does not override site-level authorization — both are required for the app to show data.</p></div>
+          </div>
+        `,
+      },
+
+      { type: "heading", level: 2, content: "Issue Panel States & UX" },
+      {
+        type: "text",
+        content:
+          "The issue panel will display different messages depending on site/project authorization and project enablement. Use the screenshots below to identify each state.",
+      },
+      {
+        type: "image",
+        src: "issue-panel-1.png",
+        alt: "Issue panel - disabled state",
+        caption: "Issue panel when the app is disabled for the project.",
+      },
+      {
+        type: "image",
+        src: "issue-panel-2.png",
+        alt: "Issue panel - unauthorized state",
+        caption:
+          "Issue panel when the project is not authorized by site admin.",
+      },
+
+      { type: "heading", level: 2, content: "Storage & Configuration Shape" },
+      {
+        type: "text",
+        content:
+          "Configuration is stored in Forge secure storage as small JSON objects. No issue content is persisted outside of Jira. Example shapes are used by the app (allowedProjects, per-project settings).",
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Performance and Tuning",
+      },
       {
         type: "list",
         items: [
-          "Enable compact mode for dense timelines",
-          "Toggle 'include attachments' to avoid heavy downloads in large projects",
-          "Set default time-window for views (e.g. 30 days)",
+          "Pagination: default 20–25 items per page; reduce for very large projects",
+          "Time filters: use shorter default windows for high-activity projects",
+          "Include attachments: toggle off for large projects to reduce load",
         ],
       },
-      { type: "heading", level: 2, content: "Configuration Storage" },
+      {
+        type: "heading",
+        level: 2,
+        content: "Troubleshooting",
+      },
       {
         type: "text",
         content:
-          "Configuration values (feature flags, enabled projects list) are stored using Forge's secure storage. No issue data is persisted by the app.",
+          "Common issues include missing site permissions, project not authorized, or missing project enablement. See below quick checks.",
+      },
+      {
+        type: "list",
+        items: [
+          "Verify app has required scopes: read:jira-work, read:jira-user, storage:app",
+          "Confirm you are a site admin to authorize projects",
+          "Check project admin enablement in Project Settings → Apps",
+          "Refresh the browser and inspect the console/network for API errors",
+        ],
+      },
+      {
+        type: "heading",
+        level: 2,
+        content: "Quick checklist",
+      },
+      {
+        type: "html",
+        content: `
+          <ul class="tab-item-benefits">
+            <li>Install the app on your Jira site</li>
+            <li>Authorize projects at site level</li>
+            <li>Enable the app in project settings</li>
+            <li>Confirm users can view changelogs</li>
+          </ul>
+        `,
+      },
+      {
+        type: "image",
+        src: "feature-1.png",
+        alt: "Feature overview",
+      },
+      {
+        type: "image",
+        src: "feature-2.png",
+        alt: "Export CSV",
+      },
+      {
+        type: "image",
+        src: "feature-3.png",
+        alt: "Pagination controls",
+      },
+      {
+        type: "image",
+        src: "feature-4.png",
+        alt: "Filtering options",
       },
     ],
     tableOfContents: [
+      { title: "Overview & Flow", anchor: "#overview" },
       {
-        title: "Site-Level Authorization",
-        anchor: "#site-level-authorization",
+        title: "Site-level: Authorize Projects",
+        anchor: "#site-level-authorize",
       },
-      { title: "Project Enablement", anchor: "#project-enablement" },
-      { title: "Feature Flags", anchor: "#feature-flags" },
+      { title: "Project-level: Enable/Disable", anchor: "#project-level" },
+      { title: "Issue Panel States", anchor: "#issue-panel-states" },
+      { title: "Storage & Performance", anchor: "#storage-performance" },
+      { title: "Troubleshooting", anchor: "#troubleshooting" },
+    ],
+    navigation: {
+      previous: { title: "Troubleshooting", target: "troubleshooting" },
+      next: { title: "Support and Contact Information", target: "support" },
+    },
+  },
+
+  troubleshooting: {
+    breadcrumbs: [
+      { title: "Issue Change Log", link: "#" },
+      { title: "Troubleshooting", link: "#" },
+    ],
+    title: "Troubleshooting",
+    description:
+      "Quick diagnosis and actionable steps for common admin- and user-facing issues when the Issue Change Log app does not appear or behaves unexpectedly.",
+    sections: [
+      {
+        type: "html",
+        content: `
+        <div style="display:flex;justify-content:center;margin:18px 0;">
+          <div class="troubleshooting-card" role="navigation" aria-label="Troubleshooting topics">
+            <ul class="troubleshooting-list">
+              <li class="troubleshooting-item"><button class="troubleshooting-link" data-target="troubleshooting-document-creation">App Not Appearing in Issue Panel <span class="troubleshooting-chevron" aria-hidden="true">›</span></button></li>
+              <li class="troubleshooting-item"><button class="troubleshooting-link" data-target="troubleshooting-saving-version">Change Log Not Loading or Empty <span class="troubleshooting-chevron" aria-hidden="true">›</span></button></li>
+              <li class="troubleshooting-item"><button class="troubleshooting-link" data-target="troubleshooting-page-group">Performance Issues or Slow Loading <span class="troubleshooting-chevron" aria-hidden="true">›</span></button></li>
+              <li class="troubleshooting-item"><button class="troubleshooting-link" data-target="troubleshooting-content-display">Changes Not Appearing or Missing History <span class="troubleshooting-chevron" aria-hidden="true">›</span></button></li>
+              <li class="troubleshooting-item"><button class="troubleshooting-link" data-target="troubleshooting-license-data">Installation or Update Issues <span class="troubleshooting-chevron" aria-hidden="true">›</span></button></li>
+            </ul>
+          </div>
+        </div>
+        `,
+      },
+    ],
+    tableOfContents: [
+      { title: "Quick Diagnosis", anchor: "#quick-diagnosis" },
+      {
+        title: "Authorize Projects (Site Admin)",
+        anchor: "#site-admin-authorize-projects",
+      },
+      {
+        title: "Enable the App (Project Admin)",
+        anchor: "#project-admin-enable",
+      },
+      { title: "When You See the Yellow Banner", anchor: "#yellow-banner" },
+      { title: "If Problems Persist", anchor: "#if-problems-persist" },
     ],
     navigation: {
       previous: { title: "Installation Guide", target: "installation" },
-      next: { title: "Support and Contact Information", target: "support" },
+      next: { title: "User Guide", target: "configuration" },
     },
   },
 
@@ -1233,7 +1911,7 @@ console.log('Ahoy, changelog!', histories.length);
       { title: "SLA & Response", anchor: "#sla" },
     ],
     navigation: {
-      previous: { title: "Configuration and Setup", target: "configuration" },
+      previous: { title: "User Guide", target: "configuration" },
       next: { title: "Security and Privacy", target: "security" },
     },
   },

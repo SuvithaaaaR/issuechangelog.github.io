@@ -414,6 +414,23 @@ function loadSectionContent(sectionId) {
       })
       .join("");
 
+  // Initialize any troubleshooting accordion toggles rendered in the content
+  try {
+    initializeTroubleshootingAccordion();
+  } catch (e) {
+    // no-op if the function isn't present or no toggles exist
+    // console.debug('no troubleshooting accordion to init', e);
+  }
+
+  // Wire up troubleshooting navigation links (needs slight delay for DOM to settle)
+  setTimeout(() => {
+    try {
+      initializeTroubleshootingLinks();
+    } catch (e) {
+      console.error("Error initializing troubleshooting links:", e);
+    }
+  }, 50);
+
   // Update table of contents
   const tocNav = document.getElementById("tocNav");
   tocNav.innerHTML = content.tableOfContents
@@ -494,6 +511,9 @@ function loadSectionContent(sectionId) {
 
   // Scroll to top
   window.scrollTo({ top: 0, behavior: "smooth" });
+
+  // Update left sidebar navigation highlighting
+  updateSidebarActiveState(sectionId);
 
   // Enhance code blocks
   addCopyButtons();
@@ -733,6 +753,16 @@ function initializeSidebar() {
     item.addEventListener("click", function (e) {
       e.preventDefault();
 
+      // Get the section ID from the href or data-item-id
+      const sectionId =
+        this.getAttribute("data-item-id") ||
+        this.getAttribute("href").substring(1);
+
+      // Load the section content
+      if (sectionContents[sectionId]) {
+        loadSectionContent(sectionId);
+      }
+
       // Remove active class from all items
       document.querySelectorAll(".nav-item").forEach((navItem) => {
         navItem.classList.remove("active");
@@ -740,6 +770,7 @@ function initializeSidebar() {
 
       // Add active class to clicked item
       this.classList.add("active");
+
       // Close sidebar on mobile to reveal content
       if (window.innerWidth <= 768) {
         const sidebarEl = document.querySelector(".sidebar");
@@ -910,6 +941,28 @@ function addCopyButtons() {
     block.parentElement.style.position = "relative";
     block.parentElement.appendChild(button);
   });
+}
+
+// Update sidebar navigation active state
+function updateSidebarActiveState(sectionId) {
+  // Remove active class from all nav items
+  document.querySelectorAll(".nav-item").forEach((item) => {
+    item.classList.remove("active");
+  });
+
+  // Find and activate the matching nav item
+  const activeNavItem = document.querySelector(
+    `.nav-item[data-item-id="${sectionId}"]`
+  );
+  if (activeNavItem) {
+    activeNavItem.classList.add("active");
+
+    // Expand the parent section if it's collapsed
+    const parentSection = activeNavItem.closest(".nav-section");
+    if (parentSection && !parentSection.classList.contains("expanded")) {
+      parentSection.classList.add("expanded");
+    }
+  }
 }
 
 // Keyboard navigation
@@ -1301,32 +1354,54 @@ function escapeHtml(str) {
 
 // Parse simple markdown bold syntax (**text** -> <strong>text</strong>)
 function parseMarkdown(str) {
-  // Allow a safe, limited set of raw HTML tags (only <mark ...>...</mark>)
-  // by preserving them before escaping and restoring them after.
-  const preservedOpen = [];
+  // Allow a safe, limited set of raw HTML tags
+  // Preserve <mark>, <strong>, <code>, <em>, <b>, <i> tags before escaping
+  const preservedTags = [];
 
-  // Replace opening <mark ...> tags with placeholders and save attributes
-  let tmp = String(str).replace(/<mark\b([^>]*)>/gi, function (_, attrs) {
-    const idx = preservedOpen.length;
-    preservedOpen.push(attrs || "");
-    return `@@MARK_OPEN_${idx}@@`;
-  });
+  // Replace opening tags with placeholders and save
+  let tmp = String(str).replace(
+    /<(mark|strong|code|em|b|i)\b([^>]*)>/gi,
+    function (match, tagName, attrs) {
+      const idx = preservedTags.length;
+      preservedTags.push({
+        tag: tagName.toLowerCase(),
+        attrs: attrs || "",
+        match: match,
+      });
+      return `@@TAG_OPEN_${idx}@@`;
+    }
+  );
 
-  // Replace closing tags with a generic placeholder
-  tmp = tmp.replace(/<\/mark>/gi, "@@MARK_CLOSE@@");
+  // Replace closing tags with placeholders
+  tmp = tmp.replace(
+    /<\/(mark|strong|code|em|b|i)>/gi,
+    function (match, tagName) {
+      const idx = preservedTags.length;
+      preservedTags.push({
+        tag: tagName.toLowerCase(),
+        closing: true,
+        match: match,
+      });
+      return `@@TAG_CLOSE_${idx}@@`;
+    }
+  );
 
   // Escape the rest of the string (safe)
   let escaped = escapeHtml(tmp);
 
-  // Restore preserved opening <mark> tags (unescaped) with their attributes
-  preservedOpen.forEach((attrs, i) => {
-    escaped = escaped.replace(`@@MARK_OPEN_${i}@@`, `<mark${attrs}>`);
+  // Restore preserved tags (unescaped)
+  preservedTags.forEach((item, i) => {
+    if (item.closing) {
+      escaped = escaped.replace(`@@TAG_CLOSE_${i}@@`, `</${item.tag}>`);
+    } else {
+      escaped = escaped.replace(
+        `@@TAG_OPEN_${i}@@`,
+        `<${item.tag}${item.attrs}>`
+      );
+    }
   });
 
-  // Restore closing tags
-  escaped = escaped.replace(/@@MARK_CLOSE@@/g, "</mark>");
-
-  // Then convert **text** to <strong>text</strong>
+  // Then convert **text** to <strong>text</strong> (for markdown-style bold)
   return escaped.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
 }
 
@@ -1394,6 +1469,84 @@ function initializeVersionDropdown() {
       showVersionNotification(selectedVersion);
     });
   });
+}
+
+// Initialize the troubleshooting accordion: wire up toggle buttons
+function initializeTroubleshootingAccordion() {
+  const toggles = document.querySelectorAll(".troubleshooting-toggle");
+  if (!toggles || toggles.length === 0) return;
+
+  toggles.forEach((btn) => {
+    // Ensure panel reference exists
+    const item = btn.closest(".troubleshooting-item");
+    if (!item) return;
+    const panel = item.querySelector(".troubleshooting-panel");
+    if (!panel) return;
+
+    // Click handler toggles open class and aria-expanded
+    btn.addEventListener("click", function (e) {
+      const isOpen = btn.getAttribute("aria-expanded") === "true";
+      if (isOpen) {
+        btn.setAttribute("aria-expanded", "false");
+        panel.classList.remove("open");
+      } else {
+        // Close other panels (accordion behaviour)
+        document
+          .querySelectorAll(".troubleshooting-panel.open")
+          .forEach((p) => {
+            p.classList.remove("open");
+            const t = p
+              .closest(".troubleshooting-item")
+              ?.querySelector(".troubleshooting-toggle");
+            if (t) t.setAttribute("aria-expanded", "false");
+          });
+
+        btn.setAttribute("aria-expanded", "true");
+        panel.classList.add("open");
+        // Scroll the opened panel into view if needed
+        setTimeout(() => {
+          const rect = panel.getBoundingClientRect();
+          if (rect.top < 100 || rect.bottom > window.innerHeight - 40) {
+            panel.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }, 150);
+      }
+    });
+  });
+}
+
+// Wire up troubleshooting links (load dedicated subpages)
+function initializeTroubleshootingLinks() {
+  const links = document.querySelectorAll(".troubleshooting-link");
+  console.log("Initializing troubleshooting links, found:", links.length);
+
+  if (!links || links.length === 0) return;
+
+  links.forEach((btn) => {
+    // Remove any existing listeners by cloning and replacing
+    const newBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(newBtn, btn);
+
+    newBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const target = newBtn.getAttribute("data-target");
+      console.log("Troubleshooting link clicked, target:", target);
+
+      if (target && sectionContents[target]) {
+        console.log("Loading section:", target);
+        loadSectionContent(target);
+      } else {
+        console.warn("Target not found in sectionContents:", target);
+        // Fallback: if the target is an anchor, navigate normally
+        const href = newBtn.getAttribute("href");
+        if (href) window.location.href = href;
+      }
+    });
+  });
+
+  console.log("Troubleshooting links initialized successfully");
 }
 
 // Show version change notification
