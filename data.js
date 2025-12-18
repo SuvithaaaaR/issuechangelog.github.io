@@ -115,24 +115,24 @@ const sectionContents = {
         src: "home img.png",
         alt: "Issue Change Log panel screenshot",
         callouts: [
-          {
+           {
             number: 1,
-            top: "8%",
+            top: "12.5%",
             left: "92%",
             tooltip:
               "Export your changelog data to CSV format for external analysis and reporting",
           },
           {
             number: 2,
-            top: "27%",
-            left: "-1.2rem",
+            top: "25%",
+            left: "-1.0rem",
             tooltip:
               "Filter changelog entries by field, content, author, and status to find specific changes",
           },
           {
             number: 3,
-            top: "89%",
-            left: "23%",
+            top: "91%",
+            left: "24%",
             tooltip:
               "Control the number of items displayed per page for better navigation",
           },
@@ -704,10 +704,10 @@ console.log('Ahoy, changelog!', histories.length);
         annotations: [
           {
             number: "1",
-            x: 25,
+            x: 7,
             y: -5,
-            lineFrom: { x: 25, y: -8 },
-            lineTo: { x: 25, y: 3 },
+            lineFrom: { x: 7, y: -8 },
+            lineTo: { x: 30, y: 7.5 },
             tooltipTitle: "Refresh",
             tooltipDescription:
               "Reload the change log to see the latest updates from Jira.",
@@ -717,7 +717,7 @@ console.log('Ahoy, changelog!', histories.length);
             x: 94,
             y: -5,
             lineFrom: { x: 94, y: -5 },
-            lineTo: { x: 94, y: 3 },
+            lineTo: { x: 94, y: 7.5 },
             tooltipTitle: "Export to CSV",
             tooltipDescription:
               "Download complete changelog data in CSV format for external analysis.",
@@ -726,7 +726,7 @@ console.log('Ahoy, changelog!', histories.length);
             number: "3",
             x: 8,
             y: 40,
-            lineFrom: { x: 8, y: 27 },
+            lineFrom: { x: 8, y: 31 },
             lineTo: { x: 8, y: 40 },
             tooltipTitle: "Author Column",
             tooltipDescription:
@@ -736,27 +736,27 @@ console.log('Ahoy, changelog!', histories.length);
             number: "4",
             x: 25,
             y: 40,
-            lineFrom: { x: 25, y: 27 },
+            lineFrom: { x: 25, y: 31 },
             lineTo: { x: 25, y: 40 },
-            tooltipTitle: "Author Column",
+            tooltipTitle: "Field column",
             tooltipDescription:
-              "Filter changes by the user who made them. Select one or more authors.",
+              "Filter by which field was changed (status, assignee, etc.) or activity type.",
           },
           {
             number: "5",
             x: 42,
             y: 40,
-            lineFrom: { x: 42, y: 27 },
+            lineFrom: { x: 42, y: 31 },
             lineTo: { x: 42, y: 40 },
-            tooltipTitle: "From column",
+            tooltipTitle: "From Column",
             tooltipDescription:
-              "Filter changes based on the previous value or status before the update.",
+              "Search for changes by the previous/old value before the change was made.",
           },
           {
             number: "6",
             x: 65,
             y: 40,
-            lineFrom: { x: 65, y: 27 },
+            lineFrom: { x: 65, y: 31 },
             lineTo: { x: 65, y: 40 },
             tooltipTitle: "To Column",
             tooltipDescription:
@@ -766,7 +766,7 @@ console.log('Ahoy, changelog!', histories.length);
             number: "7",
             x: 89,
             y: 40,
-            lineFrom: { x: 89, y: 27 },
+            lineFrom: { x: 89, y: 31 },
             lineTo: { x: 89, y: 40 },
             tooltipTitle: "Date column",
             tooltipDescription:
@@ -776,7 +776,7 @@ console.log('Ahoy, changelog!', histories.length);
             number: "8",
             x: 20,
             y: 104,
-            lineFrom: { x: 20, y: 97 },
+            lineFrom: { x: 20, y: 99 },
             lineTo: { x: 20, y: 105 },
             tooltipTitle: "Items Per Page Selector",
             tooltipDescription:
@@ -786,7 +786,7 @@ console.log('Ahoy, changelog!', histories.length);
             number: "9",
             x: 89,
             y: 104,
-            lineFrom: { x: 89, y: 95.6 },
+            lineFrom: { x: 89, y: 97 },
             lineTo: { x: 50, y: 105 },
             tooltipTitle: "Pagination Controls",
             tooltipDescription:
