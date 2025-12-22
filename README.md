@@ -139,4 +139,3 @@ Current Version: 2.5.0
 ## License
 
 Documentation for Advanced Work Item Log application.
-
